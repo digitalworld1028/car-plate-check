@@ -12,12 +12,12 @@ export const styles = StyleSheet.create({
         color: '#F3401F',
     },
     font: {
-        fontSize: horizontalScale(14),
+        fontSize: horizontalScale(15),
         color: '#1A1C20',
         justifyContent: 'center',
         alignItems: 'center',
         // fontWeight: 500,
-        fontFamily: 'RobotoCondensed-Bold',
+        fontFamily: 'RobotoCondensed-Regular',
         textAlign: 'center',
     }
 });

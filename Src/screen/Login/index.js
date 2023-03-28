@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
 
     GoogleSignin.configure({
         webClientId: '953066391410-0hgksvf4gmffkvnh327inseol2hosb2a.apps.googleusercontent.com',
-      });
+    });
 
     async function onGoogleButtonPress() {
         // Check if your device supports Google Play
@@ -74,6 +74,7 @@ const Login = ({ navigation }) => {
                             fontSize: horizontalScale(25),
                             fontWeight: 700,
                             fontFamily: 'RobotoCondensed',
+                            color: '#1A1C20',
                         }}>{'INICIAR SESIÓN'}</Text>
                         <Text
                             style={{
@@ -83,6 +84,7 @@ const Login = ({ navigation }) => {
                                 justifyContent: 'center',
                                 textAlign: 'center',
                                 fontFamily: 'RobotoCondensed',
+                                color: '#1A1C20',
                             }}
                         >
                             {'Un solo lugar, con toda la información necesaria para estar seguro a la hora de conducir'}
@@ -188,7 +190,12 @@ const Login = ({ navigation }) => {
 
                                                 if (documentSnapshot.exists) {
                                                     console.log('User data: ', documentSnapshot.data().name);
-                                                    navigation.navigate('Home', { name: documentSnapshot.data().name });
+                                                    console.log('User uid: ', userCredential.user.uid);
+                                                    navigation.navigate('Home', {
+                                                        username: documentSnapshot.data().name,
+                                                        uid: userCredential.user.uid,
+                                                        info: documentSnapshot.data().info,
+                                                    });
                                                 }
                                             });
 

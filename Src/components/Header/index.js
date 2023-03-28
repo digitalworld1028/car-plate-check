@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image } from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
 import Images from "../../utils/Images";
 import { horizontalScale, verticalScale } from "../../screen/Metrics";
 import { Text } from "@rneui/base";
@@ -7,7 +7,9 @@ import { Text } from "@rneui/base";
 
 const Header = (props) => {
     const {
-        username
+        username,
+        navigation,
+        uid,
     } = props;
     return (
         <View style={{
@@ -55,11 +57,17 @@ const Header = (props) => {
                             fontFamily: 'RobotoCondensed',
                         }}>1.000</Text>
                         <Text style={{
-                            fontSize: verticalScale(10),
+                            fontSize: verticalScale(11),
                             color: '#393B3E',
                             fontWeight: 300,
                             fontFamily: 'RobotoCondensed',
                         }}> PUNTOS</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('Addcar', {
+                            uid: uid,
+                            username: username,
+                        })}>
+                            <Text>  add</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>

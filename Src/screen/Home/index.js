@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { SafeAreaView, TouchableOpacity, Text, View, StyleSheet, ScrollView, Image } from 'react-native';
 import { horizontalScale, verticalScale } from '../Metrics';
 import LinearGradient from 'react-native-linear-gradient';
@@ -88,12 +88,22 @@ const accordionData = [
 const Home = ({ navigation }) => {
   const accordionList = getAccordionItems();
   const [isExpanded, setIsExpanded] = useState(0);
-  const [selectedId, setSelectedId] = useState(null);
+  const [current, setCurrent] = useState();
 
+  const route = useRoute();
+  const username = route.params?.username;
+  const uid = route.params?.uid;
+  const info = route.params?.info;
 
-  const route = useRoute()
-  const username = route.params?.name;
-  console.log(username);
+  // useEffect(() => {
+  //   fetch('https://worldtimeapi.org/api/timezone/America/Bogota')
+  //   .then((resp) => resp.json())
+  //   .then((json) => setCurrent(json.datetime))
+  //   .catch((error) => console.error(error));
+  //   console.log(current);
+  // }, []);
+
+  
 
 
 
@@ -103,7 +113,7 @@ const Home = ({ navigation }) => {
       <SafeAreaView style={{
         height: '100%',
       }}>
-        <Header username={username} />
+        <Header username={username} navigation={navigation} uid={uid} />
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,

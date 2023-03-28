@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, Text } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 
@@ -6,7 +6,11 @@ import Images from '../../utils/Images';
 import { styles } from './styles';
 import { horizontalScale, verticalScale } from '../../screen/Metrics';
 
-const SelectType = () => {
+const SelectType = (props) => {
+    const {
+        setType,
+    } = props;
+
     const types = [
         { title: 'Car', image: Images.ic_car },
         { title: 'Motor', image: Images.ic_motor },
@@ -22,6 +26,8 @@ const SelectType = () => {
             // }}
             onSelect={(selectedItem, index) => {
                 console.log(selectedItem, index);
+                // props.setSelctedCarId(index)
+                setType(selectedItem.title);
             }}
             buttonStyle={styles.dropdown3BtnStyle}
             renderCustomizedButtonChild={(selectedItem, index) => {

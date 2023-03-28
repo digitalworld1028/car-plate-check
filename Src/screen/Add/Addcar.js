@@ -19,11 +19,18 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import firestore from '@react-native-firebase/firestore';
 
+import { useRoute } from "@react-navigation/native";
+
 
 
 import { styles } from './styles';
 
 const Addcar = ({ navigation }) => {
+
+    const route = useRoute();
+    const username = route.params?.username;
+    const uid = route.params?.uid;
+    console.log(username + uid);
 
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedSoatDate, setSelectedSoatDate] = useState('');
@@ -182,7 +189,7 @@ const Addcar = ({ navigation }) => {
                             leftIcon={Images.ico_plate}
                         />
 
-                        <SelectType />
+                        <SelectType setType={setType} />
 
                         <InputField
                             ref={driverIDRef}
@@ -275,7 +282,24 @@ const Addcar = ({ navigation }) => {
                         <Button
                             label={'SIGUIENTE'}
                             onPress={() => {
-                                navigation.navigate('Addother');
+                                console.log(plateNumber);
+                                console.log(type);
+                                console.log(driverID);
+                                console.log(soat);
+                                console.log(tecno);
+                                console.log(extintor);
+                                navigation.navigate('Addother', {
+                                    username: username,
+                                    uid: uid,
+                                    plateNumber: plateNumber,
+                                    type: type,
+                                    driverID: driverID,
+                                    soat: soat,
+                                    tecno: tecno,
+                                    extintor: extintor,
+                                });
+
+
 
                                 // let data = [
                                 //     {
