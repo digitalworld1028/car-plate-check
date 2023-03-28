@@ -8,6 +8,7 @@ const Loginwith = (props) => {
         icon,
         text,
         bgcolor,
+        ...restProps
     } = props;
     return (
         <View style={{
@@ -36,7 +37,7 @@ const Loginwith = (props) => {
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity>
+                <TouchableOpacity {...restProps}>
                     <View style={{
                         borderColor: '#00C7E5',
                         borderWidth: horizontalScale(1),

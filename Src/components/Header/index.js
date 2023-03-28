@@ -12,27 +12,27 @@ const Header = (props) => {
     return (
         <View style={{
             marginHorizontal: horizontalScale(20),
-            height: horizontalScale(140),
+            height: verticalScale(140),
             justifyContent: 'flex-start',
             alignItems: 'center',
-            marginTop: horizontalScale(20),
-            marginBottom: horizontalScale(10),
+            marginTop: verticalScale(20),
+            marginBottom: verticalScale(10),
         }}>
             <Image source={Images.img_car} style={{
-                resizeMode: 'contain',
-                height: horizontalScale(85),
+                resizeMode: 'cover',
+                height: verticalScale(85),
                 width: '100%',
             }} />
             <View style={{
-                height: horizontalScale(55),
+                height: verticalScale(55),
                 flexDirection: 'row',
                 width: '100%',
             }}>
                 <Image source={Images.img_avatar} style={{
-                    resizeMode: 'contain',
+                    resizeMode: 'cover',
                     width: horizontalScale(72),
-                    height: horizontalScale(80),
-                    marginTop: horizontalScale(-25),
+                    height: verticalScale(80),
+                    marginTop: verticalScale(-25),
                     marginLeft: horizontalScale(15),
                 }} />
                 <View style={{
@@ -41,21 +41,21 @@ const Header = (props) => {
                 }}>
                     <Text style={{
                         color: '#393B3E',
-                        fontSize: horizontalScale(18),
+                        fontSize: verticalScale(18),
                         fontWeight: 700,
-                    }}>{'Antonio Castro'}</Text>
+                    }}>{username}</Text>
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'baseline',
                     }}>
                         <Text style={{
-                            fontSize: horizontalScale(18),
+                            fontSize: verticalScale(18),
                             color: '#FF401E',
                             fontWeight: 700,
                             fontFamily: 'RobotoCondensed',
                         }}>1.000</Text>
                         <Text style={{
-                            fontSize: horizontalScale(10),
+                            fontSize: verticalScale(10),
                             color: '#393B3E',
                             fontWeight: 300,
                             fontFamily: 'RobotoCondensed',

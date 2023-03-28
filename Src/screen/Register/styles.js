@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     paddingHorizontal: horizontalScale(40),
-    // paddingVertical: verticalScale(30),
+    // paddingVertical: verticalScale(20),
   },
   inputField: {
     paddingVertical: horizontalScale(6),

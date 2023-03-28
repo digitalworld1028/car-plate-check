@@ -16,7 +16,8 @@ export const styles = StyleSheet.create({
         color: '#1A1C20',
         justifyContent: 'center',
         alignItems: 'center',
-        fontWeight: 500,
-        fontFamily: 'Roboto Condensed',
+        // fontWeight: 500,
+        fontFamily: 'RobotoCondensed-Bold',
+        textAlign: 'center',
     }
 });

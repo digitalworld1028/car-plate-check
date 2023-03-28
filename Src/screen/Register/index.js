@@ -8,13 +8,15 @@ import Images from '../../utils/Images';
 import { horizontalScale, verticalScale, moderateSacle } from '../Metrics';
 
 import Button from '../../components/Button';
-import { CheckBox, Icon } from '@rneui/themed';
+// import { CheckBox, Icon } from '@rneui/themed';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+
+import CheckBox from 'react-native-check-box'
 
 import { styles } from './styles';
 
@@ -29,6 +31,7 @@ const Register = ({ navigation }) => {
   const [password, setPassword] = useState(null);
   const [confirPass, SetConfirmPass] = useState(null);
   const [check, setCheck] = useState(false);
+  const [info, setInfo] = useState('');
 
   return (
     <LinearGradient colors={['#00C7E5', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
@@ -86,6 +89,12 @@ const Register = ({ navigation }) => {
               Agrega tu información para acceder a nuestros servicios
             </Text>
           </View>
+          {/* <View style={{
+            width: '100%',
+            height: horizontalScale(1),
+            backgroundColor: '#BFBFBF',
+          }}>
+          </View> */}
           <View
             style={{
               width: '100%',
@@ -121,7 +130,8 @@ const Register = ({ navigation }) => {
               isRight={true}
               leftIcon={Images.ic_lock}
               rightIcon={Images.ic_eye}
-              secureTextEntry={true}
+              rightType={'password'}
+              securePass={true}
             />
             <InputField
               ref={confirmPassRef}
@@ -134,27 +144,27 @@ const Register = ({ navigation }) => {
               isRight={true}
               leftIcon={Images.ic_lock}
               rightIcon={Images.ic_eye}
-              secureTextEntry={true}
+              rightType={'password'}
+              securePass={true}
             />
+            <Text style={{
+              textAlign: 'center',
+              color: 'red',
+            }}>{info}</Text>
           </View>
+
           <View
             style={{
               width: '100%',
+              flexDirection: 'column',
             }}>
-            <View
+            {/* <View
               style={{
                 width: '100%',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              {/* <Image
-            resizeMode={'contain'}
-            style={{
-              width: horizontalScale(40),
-            }}
-            source={Images.ic_lock}
-          /> */}
               <CheckBox
                 center
                 title="Al crear una cuenta, acepta los Términos de uso y nuestra Política de privacidad."
@@ -168,30 +178,62 @@ const Register = ({ navigation }) => {
                 }}
                 onPress={() => setCheck(!check)}
               />
-              {/* <View
-            style={{
-              flex: 1,
+            </View> */}
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+              paddingHorizontal: horizontalScale(20),
             }}>
-            <Text
-            style={{
-              fontSize: horizontalScale(12),
-            }}>
-            {
-              'Al crear una cuenta, acepta los Términos de uso y nuestra Política de privacidad.'
-            }
-            </Text>
-          </View> */}
+              <View style={{
+                width: '10%',
+              }}>
+
+                <CheckBox
+                  onClick={() => {
+                    setCheck(!check);
+                  }}
+                  isChecked={check}
+                  checkedImage={<Image source={Images.ico_check} style={{
+                    width: horizontalScale(23),
+                    height: horizontalScale(23),
+                    resizeMode: 'contain',
+                  }} />}
+                  unCheckedImage={<Image source={Images.ico_uncheck} style={{
+                    width: horizontalScale(23),
+                    height: horizontalScale(23),
+                    resizeMode: 'contain',
+                  }} />}
+                />
+              </View>
+
+              <View style={{
+                width: '90%',
+              }}>
+                <Text style={{
+                  fontSize: horizontalScale(12),
+                  textAlign: 'center',
+                  fontFamily: 'Roboto Condensed',
+                }}>Al crear una cuenta, acepta los <Text style={{
+                  color: '#FF6700',
+                  fontFamily: 'Roboto Condensed',
+                }}>Términos de uso</Text> y nuestra <Text style={{ color: '#FF6700' }}>Política de privacidad</Text></Text>
+              </View>
+
             </View>
             <View
               style={{
                 width: '100%',
                 alignItems: 'center',
+                marginTop: horizontalScale(13),
               }}>
               <Text
                 style={{
                   fontSize: horizontalScale(12),
+                  fontFamily: 'Roboto Condensed',
                 }}>
-                  <Text>¿Ya tienes una cuenta? <Text style={{color: '#FF6700'}}>Iniciar sesión</Text></Text>
+                <Text>¿Ya tienes una cuenta? <Text style={{ color: '#FF6700' }}>Iniciar sesión</Text></Text>
                 {/* {'¿Ya tienes una cuenta? Iniciar sesión'} */}
               </Text>
             </View>
@@ -204,6 +246,73 @@ const Register = ({ navigation }) => {
               label={'SIGUIENTE'}
               onPress={() => {
                 navigation.navigate('Addcar');
+                // if (userName == '') {
+                //   console.log('Please input username!');
+                //   setInfo('Please input username!');
+                // }
+                // else if (password == '' && confirPass == '') {
+                //   console.log('Please input password!');
+                //   setInfo('Please input password!');
+                // }
+                // else if (password != confirPass) {
+                //   console.log('Please confirm password!');
+                //   setInfo('Please confirm password!');
+                // }
+                // else if (!check) {
+                //   console.log('please check!');
+                //   setInfo('Please check!');
+                // }
+                // else {
+                //   auth()
+                //     .createUserWithEmailAndPassword(email, password)
+                //     .then((data) => {
+                //       console.log('User account created & signed in!');
+                //       console.log(data.user.uid);
+
+
+                //       firestore()
+                //         .collection('users')
+                //         .doc(data.user.uid)
+                //         .set({
+                //           name: userName,
+                //           email: email,
+                //           password: password,
+                //           info: [],
+                //         })
+                //         .then(() => {
+                //           console.log('User added!');
+                //         });
+
+                //       Alert.alert(
+                //         'Created Successful!',
+                //         'Created Successful!',
+                //         [
+                //           {
+                //             text: 'OK',
+                //             onPress: () => navigation.navigate('Splash'),
+                //           }
+                //         ]
+                //       );
+                //     })
+                //     .catch(error => {
+                //       if (error.code === 'auth/email-already-in-use') {
+                //         console.log('That email address is already in use!');
+                //         setInfo('That email address is already in use!');
+                //       }
+
+                //       if (error.code === 'auth/invalid-email') {
+                //         console.log('That email address is invalid!');
+                //         setInfo('The email address is badly formatted!');
+                //       }
+
+                //       if (error.code === 'auth/weak-password') {
+                //         console.log('Password should be at least 6 characters!');
+                //         setInfo('Password should be at least 6 characters!');
+                //       }
+
+                //       // console.error(error);
+                //     });
+                // }
 
                 // auth()
                 //   .createUserWithEmailAndPassword(email, password)
@@ -219,6 +328,7 @@ const Register = ({ navigation }) => {
                 //         name: userName,
                 //         email: email,
                 //         password: password,
+                //         info: [],
                 //       })
                 //       .then(() => {
                 //         console.log('User added!');

@@ -14,7 +14,7 @@ const Showtext = (props) => {
             width: horizontalScale(295),
             alignItems: 'center',
             justifyContent: 'space-around',
-            marginTop: horizontalScale(10),
+            marginTop: verticalScale(10),
         }}>
             {status == 'good' && <Text style={styles.font}>Puedes transitar, no tienes inconvenientes,
                 tu SOAT y Tecnomecánica siguen vigentes.</Text>}

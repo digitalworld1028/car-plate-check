@@ -17,6 +17,9 @@ import Modal from "react-native-modal";
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import firestore from '@react-native-firebase/firestore';
+
+
 
 import { styles } from './styles';
 
@@ -32,7 +35,7 @@ const Addcar = ({ navigation }) => {
     const [isTecnoModalVisible, setTecnoModalVisible] = useState(false);
     const [isExtintorModalVisible, setExtintorModalVisible] = useState(false);
 
-    
+
     const toggleSoatModal = () => {
         setSoatModalVisible(!isSoatModalVisible);
     };
@@ -210,6 +213,7 @@ const Addcar = ({ navigation }) => {
                                 isRight={true}
                                 leftIcon={Images.ico_cal}
                                 rightIcon={Images.ico_bottom}
+                                rightType={'normal'}
                                 editable={false}
                             />
                         </TouchableOpacity>
@@ -231,6 +235,7 @@ const Addcar = ({ navigation }) => {
                                 isRight={true}
                                 leftIcon={Images.ico_cal}
                                 rightIcon={Images.ico_bottom}
+                                rightType={'normal'}
                                 editable={false}
                             />
                         </TouchableOpacity>
@@ -252,6 +257,7 @@ const Addcar = ({ navigation }) => {
                                 isRight={true}
                                 leftIcon={Images.ico_cal}
                                 rightIcon={Images.ico_bottom}
+                                rightType={'normal'}
                                 editable={false}
                             />
                         </TouchableOpacity>
@@ -266,9 +272,46 @@ const Addcar = ({ navigation }) => {
                         <Button label={'ATRAS'} onPress={() => {
                             navigation.navigate('Register');
                         }} bgColor={'#00416E'} width={115} />
-                        <Button label={'SIGUIENTE'} onPress={() => {
-                            navigation.navigate('Addother');
-                        }} width={165} />
+                        <Button
+                            label={'SIGUIENTE'}
+                            onPress={() => {
+                                navigation.navigate('Addother');
+
+                                // let data = [
+                                //     {
+                                //         type: 'car',
+                                //         plate: 'ABC123',
+                                //         city: 'Bogota',
+                                //         soat: '2022/05/22',
+                                //         tecno: '2023/06/15',
+                                //         extintor: '2023/09/16',
+                                //     },
+                                //     {
+                                //         type: 'car',
+                                //         plate: 'UIC823',
+                                //         city: 'Bogota',
+                                //         soat: '2022/05/22',
+                                //         tecno: '2023/06/15',
+                                //         extintor: '2023/09/16',
+                                //     },
+                                // ]
+
+                                // firestore()
+                                //     .collection('users')
+                                //     .doc('Siah9zR1N1aSzsFHlSh9UNoePNa2')
+                                //     // .select('info')
+                                //     .set({
+                                //         info: data
+                                //     }, {
+                                //         merge: true
+                                //     })
+                                //     .then(() => {
+                                //         console.log('User added!');
+                                //     });
+
+                            }}
+                            width={165}
+                        />
                     </View>
                 </SafeAreaView>
             </KeyboardAwareScrollView>

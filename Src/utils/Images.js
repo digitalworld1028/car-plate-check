@@ -8,6 +8,7 @@ export default {
   ic_lock: require('./../assets/images/ic_lock.png'),
   ic_user: require('./../assets/images/ic_user.png'),
   ic_eye: require('./../assets/images/ic_eye.png'),
+  ic_eye_slash:  require('./../assets/images/ic_eye_slash.png'),
   ic_delete: require('./../assets/images/delete.png'),
   ic_danger: require('./../assets/images/ic_danger.png'),
   ic_warning: require('./../assets/images/ic_warning.png'),
@@ -44,4 +45,11 @@ export default {
   ico_plate: require('./../assets/images/ico_plate.png'),
 
   ico_location: require('./../assets/images/ico_location.png'),
+  ico_down: require('./../assets/images/ico_down.png'),
+  ico_up: require('./../assets/images/ico_up.png'),
+
+  ico_check: require('./../assets/images/check.png'),
+  ico_uncheck: require('./../assets/images/uncheck.png'),
+
+  ico_marker:  require('./../assets/images/marker.png'),
 };
