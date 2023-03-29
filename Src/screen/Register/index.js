@@ -38,7 +38,7 @@ const Register = ({ navigation }) => {
       <KeyboardAwareScrollView
         contentContainerStyle={{
           flexGrow: 1,
-          height: verticalScale(700),
+          height: verticalScale(760),
         }}
       >
         <SafeAreaView style={styles.container}>
@@ -47,32 +47,33 @@ const Register = ({ navigation }) => {
               resizeMode={'contain'}
               source={Images.logo2}
               style={{
-                width: horizontalScale(110),
-                height: verticalScale(155),
+                width: verticalScale(108),
+                height: verticalScale(153),
+                marginTop: verticalScale(40),
               }}
             />
           </View>
           <View
             style={{
               alignItems: 'center',
+              marginTop: verticalScale(35),
             }}>
             <Text
               style={{
                 fontStyle: 'normal',
-                fontSize: horizontalScale(25),
-                fontWeight: 700,
+                fontSize: horizontalScale(23),
                 color: '#1A1C20',
-                fontFamily: 'RobotoCondensed',
+                fontFamily: 'RobotoCondensed-Bold',
               }}>
               {'REGISTRARSE'}
             </Text>
             <Text
               style={{
                 fontStyle: 'normal',
-                fontSize: 18,
-                fontWeight: 400,
+                fontSize: verticalScale(18),
                 color: '#1A1C20',
-                fontFamily: 'RobotoCondensed',
+                fontFamily: 'RobotoCondensed-Regular',
+                letterSpacing: verticalScale(2),
               }}>
               INFORMACIÓN PERSONAL
             </Text>
@@ -83,21 +84,23 @@ const Register = ({ navigation }) => {
                 color: '#1A1C20',
                 width: horizontalScale(250),
                 textAlign: 'center',
-                fontFamily: 'RobotoCondensed',
+                fontFamily: 'RobotoCondensed-Light',
               }}
             >
               Agrega tu información para acceder a nuestros servicios
             </Text>
           </View>
-          {/* <View style={{
+          <View style={{
             width: '100%',
-            height: horizontalScale(1),
+            height: verticalScale(1),
             backgroundColor: '#BFBFBF',
+            marginTop: verticalScale(16),
           }}>
-          </View> */}
+          </View>
           <View
             style={{
               width: '100%',
+              marginTop: verticalScale(12),
             }}>
             <InputField
               ref={nameRef}
@@ -157,6 +160,7 @@ const Register = ({ navigation }) => {
             style={{
               width: '100%',
               flexDirection: 'column',
+              marginTop: verticalScale(-12),
             }}>
             {/* <View
               style={{
@@ -212,13 +216,13 @@ const Register = ({ navigation }) => {
                 width: '90%',
               }}>
                 <Text style={{
-                  fontSize: horizontalScale(12),
+                  fontSize: verticalScale(13),
                   textAlign: 'center',
-                  fontFamily: 'Roboto Condensed',
+                  fontFamily: 'RobotoCondensed-Regular',
                 }}>Al crear una cuenta, acepta los <Text style={{
                   color: '#FF6700',
-                  fontFamily: 'Roboto Condensed',
-                }}>Términos de uso</Text> y nuestra <Text style={{ color: '#FF6700' }}>Política de privacidad</Text></Text>
+                  fontFamily: 'RobotoCondensed-Bold',
+                }}>Términos de uso</Text> y nuestra <Text style={{ color: '#FF6700', fontFamily: 'RobotoCondensed-Bold', }}>Política de privacidad</Text></Text>
               </View>
 
             </View>
@@ -226,14 +230,14 @@ const Register = ({ navigation }) => {
               style={{
                 width: '100%',
                 alignItems: 'center',
-                marginTop: horizontalScale(13),
+                marginTop: horizontalScale(10),
               }}>
               <Text
                 style={{
                   fontSize: horizontalScale(12),
                   fontFamily: 'Roboto Condensed',
                 }}>
-                <Text>¿Ya tienes una cuenta? <Text style={{ color: '#FF6700' }}>Iniciar sesión</Text></Text>
+                <Text>¿Ya tienes una cuenta? <Text style={{ color: '#FF6700', fontFamily: 'RobotoCondensed-Bold', }}>Iniciar sesión</Text></Text>
                 {/* {'¿Ya tienes una cuenta? Iniciar sesión'} */}
               </Text>
             </View>
@@ -241,6 +245,7 @@ const Register = ({ navigation }) => {
           <View
             style={{
               width: '80%',
+              marginTop: verticalScale(20),
             }}>
             <Button
               label={'SIGUIENTE'}

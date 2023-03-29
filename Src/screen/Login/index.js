@@ -50,7 +50,7 @@ const Login = ({ navigation }) => {
             <KeyboardAwareScrollView
                 contentContainerStyle={{
                     flexGrow: 1,
-                    height: verticalScale(700),
+                    height: verticalScale(750),
                 }}
             >
                 <SafeAreaView
@@ -62,36 +62,46 @@ const Login = ({ navigation }) => {
                             resizeMode='contain'
                             source={Images.logo2}
                             style={{
-                                width: horizontalScale(110),
-                                height: verticalScale(155),
+                                width: verticalScale(108),
+                                height: verticalScale(154),
+                                marginTop: verticalScale(40),
                             }}
                         />
                     </View>
                     <View style={{
                         alignItems: 'center',
+                        width: horizontalScale(245),
+                        marginTop: verticalScale(35),
                     }}>
                         <Text style={{
-                            fontSize: horizontalScale(25),
-                            fontWeight: 700,
-                            fontFamily: 'RobotoCondensed',
+                            fontSize: verticalScale(25),
+                            fontFamily: 'RobotoCondensed-Bold',
                             color: '#1A1C20',
                         }}>{'INICIAR SESIÓN'}</Text>
                         <Text
                             style={{
-                                fontSize: horizontalScale(18),
-                                fontWeight: 300,
+                                fontSize: verticalScale(17),
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 textAlign: 'center',
-                                fontFamily: 'RobotoCondensed',
+                                fontFamily: 'RobotoCondensed-Regular',
                                 color: '#1A1C20',
+                                lineHeight: verticalScale(18),
+                                marginTop: verticalScale(10),
                             }}
                         >
                             {'Un solo lugar, con toda la información necesaria para estar seguro a la hora de conducir'}
                         </Text>
                     </View>
                     <View style={{
+                        height: horizontalScale(1),
                         width: '100%',
+                        backgroundColor: '#BFBFBF',
+                        marginTop: verticalScale(15),
+                    }}></View>
+                    <View style={{
+                        width: '100%',
+                        marginTop: verticalScale(10),
                     }}>
                         <InputField
                             ref={emailRef}
@@ -125,7 +135,6 @@ const Login = ({ navigation }) => {
                         >{info}</Text>
 
                         <View style={{
-                            marginTop: horizontalScale(10),
                         }}>
                             <View style={{
                                 width: '100%',
@@ -163,7 +172,7 @@ const Login = ({ navigation }) => {
 
                     <View style={{
                         width: '80%',
-                        marginBottom: horizontalScale(20),
+                        marginTop: horizontalScale(55),
                     }}>
                         <Button label={'CONTINUAR'} onPress={() => {
 

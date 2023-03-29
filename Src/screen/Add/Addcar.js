@@ -78,7 +78,7 @@ const Addcar = ({ navigation }) => {
             <KeyboardAwareScrollView
                 contentContainerStyle={{
                     flexGrow: 1,
-                    height: verticalScale(700),
+                    height: verticalScale(775),
                 }}
             >
 
@@ -144,6 +144,7 @@ const Addcar = ({ navigation }) => {
                             style={{
                                 width: horizontalScale(110),
                                 height: verticalScale(155),
+                                marginTop: verticalScale(40),
                             }}
                         />
                     </View>
@@ -154,28 +155,36 @@ const Addcar = ({ navigation }) => {
                         <Text
                             style={{
                                 fontStyle: 'normal',
-                                fontSize: 18,
-                                fontWeight: 400,
+                                fontSize: verticalScale(19),
                                 color: '#1A1C20',
-                                fontFamily: 'RobotoCondensed',
+                                fontFamily: 'RobotoCondensed-Regular',
+                                marginTop: verticalScale(43),
+                                letterSpacing: verticalScale(3),
                             }}>
                             INFORMACIÓN DEL AUTO
                         </Text>
                         <Text
                             style={{
                                 fontWeight: 300,
-                                fontSize: 18,
+                                fontSize: verticalScale(18),
                                 color: '#1A1C20',
                                 width: horizontalScale(270),
                                 textAlign: 'center',
-                                fontFamily: 'RobotoCondensed',
+                                fontFamily: 'RobotoCondensed-Regular',
                             }}>
                             Complete el siguiente formulario para agregar su automóvil
                         </Text>
                     </View>
+                    <View style={{
+                        width: '100%',
+                        height: verticalScale(1),
+                        backgroundColor: '#BFBFBF',
+                        marginTop: verticalScale(16),
+                    }}></View>
                     <View
                         style={{
                             width: '100%',
+                            marginTop: verticalScale(10),
                         }}>
 
                         <InputField
@@ -275,6 +284,7 @@ const Addcar = ({ navigation }) => {
                             width: '100%',
                             flexDirection: 'row',
                             justifyContent: 'space-around',
+                            marginTop: verticalScale(10),
                         }}>
                         <Button label={'ATRAS'} onPress={() => {
                             navigation.navigate('Register');

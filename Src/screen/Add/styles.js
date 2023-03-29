@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'space-evenly',
+        // justifyContent: 'space-evenly',
         alignItems: 'center',
         paddingHorizontal: horizontalScale(40),
         // paddingVertical: verticalScale(30),

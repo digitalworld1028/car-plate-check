@@ -49,7 +49,7 @@ const Addother = ({ navigation }) => {
             <KeyboardAwareScrollView
                 contentContainerStyle={{
                     flexGrow: 1,
-                    height: verticalScale(800),
+                    height: verticalScale(725),
                 }}
             >
                 <KeyboardAwareScrollView
@@ -80,29 +80,36 @@ const Addother = ({ navigation }) => {
                                 <Text
                                     style={{
                                         fontStyle: 'normal',
-                                        fontSize: 18,
+                                        fontSize: verticalScale(20),
                                         fontWeight: 400,
                                         color: '#1A1C20',
-                                        fontFamily: 'RobotoCondensed',
+                                        fontFamily: 'RobotoCondensed-Regular',
+                                        letterSpacing: verticalScale(4),
                                     }}>
                                     LOCALIZACIÓN
                                 </Text>
                                 <Text
                                     style={{
                                         fontWeight: 300,
-                                        fontSize: 18,
+                                        fontSize: verticalScale(18),
                                         color: '#1A1C20',
                                         width: horizontalScale(270),
                                         textAlign: 'center',
-                                        fontFamily: 'RobotoCondensed',
+                                        fontFamily: 'RobotoCondensed-Regular',
                                     }}>
                                     Complete el siguiente formulario para agregar su localización
                                 </Text>
+                                <View style={{
+                                    width: '100%',
+                                    height: verticalScale(1),
+                                    backgroundColor: '#BFBFBF',
+                                    marginTop: verticalScale(16),
+                                }}></View>
                             </View>
                             <View
                                 style={{
                                     width: '100%',
-                                    marginTop: horizontalScale(20),
+                                    marginTop: horizontalScale(10),
                                 }}>
 
                                 <InputField

@@ -9,7 +9,7 @@ const Button = props => {
     bgColor = '#F3401F',
     textColor = 'white',
     width = 237,
-    height = 50,
+    height = 44,
     radius = 5,
     fontSize = 20,
     letterSpacing = 5,
@@ -38,7 +38,7 @@ const Button = props => {
           fontSize: horizontalScale(fontSize),
           color: textColor,
           letterSpacing: horizontalScale(letterSpacing),
-          fontFamily: 'RobotoCondensed',
+          fontFamily: 'RobotoCondensed-Regular',
         }}>
         {label}
       </Text>
