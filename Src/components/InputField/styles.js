@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import Colors from '../../utils/Colors';
-import {horizontalScale} from '../../screen/Metrics';
+import {horizontalScale, verticalScale} from '../../screen/Metrics';
+import { version } from 'react';
 
 export const styles = StyleSheet.create({
   container: {

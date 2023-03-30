@@ -3,6 +3,7 @@ export default {
   logo2: require('./../assets/images/logo2.png'),
   logo3: require('./../assets/images/logo3.png'),
   logo_row: require('./../assets/images/logo_row.png'),
+  logo_noletter: require('./../assets/images/logo_noletter.png'),
 
   ic_email: require('./../assets/images/ic_email.png'),
   ic_lock: require('./../assets/images/ic_lock.png'),

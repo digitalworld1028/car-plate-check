@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     },
     dropdown3BtnImage: { width: 45, height: 45, resizeMode: 'cover' },
     dropdown3BtnTxt: {
-        color: '#FF6700',
+        color: '#FFB380',
         textAlign: 'left',
         fontSize: 14,
     },

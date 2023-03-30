@@ -11,10 +11,11 @@ const Showtext = (props) => {
 
     return (
         <View style={{
-            width: horizontalScale(295),
+            width: horizontalScale(270),
             alignItems: 'center',
             justifyContent: 'space-around',
             marginTop: verticalScale(10),
+            width: horizontalScale(295),
         }}>
             {status == 'good' && <Text style={styles.font}>Puedes transitar, no tienes inconvenientes,
                 tu SOAT y Tecnomecánica siguen vigentes.</Text>}

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image } from 'react-native';
-import { horizontalScale } from "../../screen/Metrics";
+import { horizontalScale, verticalScale } from "../../screen/Metrics";
 import Images from "../../utils/Images";
 
 const Footer = () => {
@@ -9,16 +9,16 @@ const Footer = () => {
             flexDirection: 'row',
             justifyContent: 'space-around',
             alignItems: 'center',
-            backgroundColor: '#002337',
-            height: horizontalScale(50),
-            marginTop: horizontalScale(5),
+            backgroundColor: '#373736',
+            height: verticalScale(50),
+            marginTop: verticalScale(5),
         }}>
             <Image source={Images.ico_contact} />
             <Image source={Images.ico_cargar} />
-            <Image source={Images.logo2} style={{
+            <Image source={Images.logo_noletter} style={{
                 resizeMode: 'contain',
-                width: horizontalScale(45),
-                height: horizontalScale(45),
+                width: verticalScale(55),
+                height: verticalScale(55),
             }} />
             <Image source={Images.ico_perfil} />
             <Image source={Images.ico_service} />

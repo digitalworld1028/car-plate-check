@@ -56,7 +56,7 @@ const InputField = forwardRef((props, ref) => {
           ref={ref}
           style={styles.input}
           value={value}
-          placeholderTextColor={'#FF6700'}
+          placeholderTextColor={'#FFB380'}
           color={'#FF6700'}
           placeholder={placeholder}
           onChangeText={v => onChangeText(v)}

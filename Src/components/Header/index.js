@@ -31,8 +31,8 @@ const Header = (props) => {
                 width: '100%',
             }}>
                 <Image source={Images.img_avatar} style={{
-                    resizeMode: 'cover',
-                    width: horizontalScale(72),
+                    resizeMode: 'contain',
+                    width: verticalScale(72),
                     height: verticalScale(80),
                     marginTop: verticalScale(-25),
                     marginLeft: horizontalScale(15),

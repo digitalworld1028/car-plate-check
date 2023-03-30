@@ -13,10 +13,10 @@ export const styles = StyleSheet.create({
     container1: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: horizontalScale(40),
-        paddingVertical: verticalScale(30),
+        // paddingVertical: verticalScale(30),
     },
     inputField: {
         paddingVertical: horizontalScale(6),

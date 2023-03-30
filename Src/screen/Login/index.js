@@ -45,7 +45,7 @@ const Login = ({ navigation }) => {
 
 
     return (
-        <LinearGradient colors={['#00C7E5', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
+        <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
 
             <KeyboardAwareScrollView
                 contentContainerStyle={{
@@ -161,8 +161,8 @@ const Login = ({ navigation }) => {
                                     width: horizontalScale(70),
                                 }}></View>
                             </View>
-                            <Loginwith icon={Images.ico_google} text={'INICIAR SESIÓN CON GOOGLE'} onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))} />
-                            <Loginwith icon={Images.ico_facebook} text={'INICIAR SESIÓN CON FACEBOOK'} />
+                            <Loginwith icon={Images.ico_google} text={'INICIAR SESIÓN CON GOOGLE'} onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))} bgcolor={'rgba(0, 199, 229, 0.1)'} borderColor={'#00C7E5'} />
+                            <Loginwith icon={Images.ico_facebook} text={'INICIAR SESIÓN CON FACEBOOK'} bgcolor={'rgba(18, 120, 243, 0.1)'} borderColor={'#1278F3'} />
                         </View>
                     </View>
 
@@ -172,62 +172,63 @@ const Login = ({ navigation }) => {
 
                     <View style={{
                         width: '80%',
-                        marginTop: horizontalScale(55),
+                        marginTop: verticalScale(55),
                     }}>
                         <Button label={'CONTINUAR'} onPress={() => {
+                            navigation.navigate('Home');
 
-                            if (email == '' || password == '') {
-                                console.log('Please input email and password!');
-                                setInfo('Please input email and password!');
-                            }
-                            else {
-                                // navigation.navigate('Home');
-                                auth()
-                                    .signInWithEmailAndPassword(email, password)
-                                    .then((userCredential) => {
-                                        // Signed in 
-                                        const user = userCredential.user;
-                                        console.log('singed in!!!');
-                                        console.log(userCredential.user.uid);
+                            // if (email == '' || password == '') {
+                            //     console.log('Please input email and password!');
+                            //     setInfo('Please input email and password!');
+                            // }
+                            // else {
+                            //     // navigation.navigate('Home');
+                            //     auth()
+                            //         .signInWithEmailAndPassword(email, password)
+                            //         .then((userCredential) => {
+                            //             // Signed in 
+                            //             const user = userCredential.user;
+                            //             console.log('singed in!!!');
+                            //             console.log(userCredential.user.uid);
 
-                                        firestore()
-                                            .collection('users')
-                                            .doc(userCredential.user.uid)
-                                            .get()
-                                            .then(documentSnapshot => {
-                                                console.log('User exists: ', documentSnapshot.exists);
+                            //             firestore()
+                            //                 .collection('users')
+                            //                 .doc(userCredential.user.uid)
+                            //                 .get()
+                            //                 .then(documentSnapshot => {
+                            //                     console.log('User exists: ', documentSnapshot.exists);
 
-                                                if (documentSnapshot.exists) {
-                                                    console.log('User data: ', documentSnapshot.data().name);
-                                                    console.log('User uid: ', userCredential.user.uid);
-                                                    navigation.navigate('Home', {
-                                                        username: documentSnapshot.data().name,
-                                                        uid: userCredential.user.uid,
-                                                        info: documentSnapshot.data().info,
-                                                    });
-                                                }
-                                            });
+                            //                     if (documentSnapshot.exists) {
+                            //                         console.log('User data: ', documentSnapshot.data().name);
+                            //                         console.log('User uid: ', userCredential.user.uid);
+                            //                         navigation.navigate('Home', {
+                            //                             username: documentSnapshot.data().name,
+                            //                             uid: userCredential.user.uid,
+                            //                             info: documentSnapshot.data().info,
+                            //                         });
+                            //                     }
+                            //                 });
 
 
-                                        // ...
-                                    })
-                                    .catch((error) => {
-                                        if (error.code === 'auth/invalid-email') {
-                                            console.log('asdfasfd');
-                                            setInfo('The email address is badly fromatted!')
-                                        }
-                                        if (error.code === 'auth/user-not-found') {
-                                            setInfo("The email address doesn't exist!");
-                                        }
-                                        if (error.code === 'auth/wrong-password') {
-                                            setInfo('The password is incorrect!');
-                                        }
-                                        const errorCode = error.code;
-                                        console.log(errorCode)
-                                        const errorMessage = error.message;
-                                        console.log(errorMessage);
-                                    });
-                            }
+                            //             // ...
+                            //         })
+                            //         .catch((error) => {
+                            //             if (error.code === 'auth/invalid-email') {
+                            //                 console.log('asdfasfd');
+                            //                 setInfo('The email address is badly fromatted!')
+                            //             }
+                            //             if (error.code === 'auth/user-not-found') {
+                            //                 setInfo("The email address doesn't exist!");
+                            //             }
+                            //             if (error.code === 'auth/wrong-password') {
+                            //                 setInfo('The password is incorrect!');
+                            //             }
+                            //             const errorCode = error.code;
+                            //             console.log(errorCode)
+                            //             const errorMessage = error.message;
+                            //             console.log(errorMessage);
+                            //         });
+                            // }
 
 
 

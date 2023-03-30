@@ -109,7 +109,7 @@ const Home = ({ navigation }) => {
 
 
   return (
-    <LinearGradient colors={['#00C7E5', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
+    <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
       <SafeAreaView style={{
         height: '100%',
       }}>

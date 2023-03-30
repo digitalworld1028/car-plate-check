@@ -24,27 +24,55 @@ const Plate = props => {
             justifyContent: 'space-between',
             // marginVertical: horizontalScale(2),
             paddingTop: horizontalScale(10),
+            // width: '100%',
+            width: horizontalScale(295),
+            alignItems: 'center',
         }}>
             <View style={{
-                width: verticalScale(95),
+                width: horizontalScale(95),
                 height: verticalScale(95),
-                borderColor: '#CDCDCD',
-                borderWidth: 1,
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                alignItems: 'center',
-                borderRadius: verticalScale(3),
-                paddingTop: verticalScale(22),
-                paddingBottom: verticalScale(9),
+                // alignItems: 'center',
+
             }}>
-                <Image source={Images.ic_car} style={{
-                    resizeMode: 'cover',
-                    width: verticalScale(70),
-                    height: verticalScale(47),
-                    resizeMode: 'contain',
+                <View style={{
+                    height: verticalScale(71),
+                    width: horizontalScale(95),
+                    borderColor: '#CDCDCD',
+                    borderWidth: 1,
+                    borderRadius: verticalScale(3),
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    paddingTop: verticalScale(13),
                 }}>
-                </Image>
-                <Text>{'+ TU AUTO'}</Text>
+                    <View>
+                        <Image source={Images.ic_car} style={{
+                            width: horizontalScale(52),
+                            height: verticalScale(37),
+                            resizeMode: 'contain',
+                        }}>
+                        </Image>
+                    </View>
+                    <View>
+                        <Text style={{
+                            color: 'black',
+                            fontSize: verticalScale(12),
+                        }}>{'+ TU AUTO'}</Text>
+                    </View>
+                </View>
+                <View style={{
+                    height: verticalScale(22),
+                    width: horizontalScale(95),
+                    backgroundColor: '#FB6900',
+                }}>
+                    <Text style={{
+                        color: 'white',
+                        fontFamily: 'RobotoCondensed-Bold',
+                        textAlign: 'center',
+                        letterSpacing: verticalScale(1),
+                    }}><Text style={{fontSize: verticalScale(16)}}>888.998</Text><Text style={{fontSize: verticalScale(12),}}> Km</Text></Text>
+                </View>
             </View>
             <View style={{ width: horizontalScale(2) }}>
             </View>
@@ -53,7 +81,7 @@ const Plate = props => {
                 // height: horizontalScale(90),
             }}>
                 <View style={{
-                    backgroundColor: '#00416E',
+                    backgroundColor: '#373736',
                     height: verticalScale(91),
                     width: horizontalScale(198),
                     flexDirection: 'column',
@@ -63,7 +91,7 @@ const Plate = props => {
                     <View style={{
                         width: '100%',
                         paddingTop: verticalScale(3),
-                        paddingLeft: horizontalScale(181),
+                        paddingLeft: horizontalScale(180),
                         height: verticalScale(17),
                     }}>
                         <TouchableOpacity onPress={() => console.log('delete click!!')}>
@@ -118,6 +146,7 @@ const Plate = props => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             ...styles[status],
+                            backgroundColor: '#737372',
                         }}>
                             <Text style={{
                                 color: 'white',
@@ -169,6 +198,7 @@ const Plate = props => {
                     <View style={{
                         width: horizontalScale(128),
                         ...styles[status],
+                        backgroundColor: '#737372',
                     }}>
                     </View>
                     <View style={{
@@ -179,6 +209,7 @@ const Plate = props => {
                 <View style={{
                     height: verticalScale(2),
                     ...styles[status],
+                    backgroundColor: '#737372',
                 }}></View>
             </View>
         </View >

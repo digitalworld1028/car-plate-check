@@ -26,21 +26,11 @@ const Rangecar = (props) => {
                     height: horizontalScale(15),
                     width: horizontalScale(30),
                     resizeMode: 'contain',
-                    marginLeft: horizontalScale(19 * range),
+                    marginLeft: horizontalScale(16 * range),
                 }} />
             </View>
         </LinearGradient>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        justifyContent: "center",
-        alignItems: 'center',
-        width: '100%',
-        height: horizontalScale(20),
-        backgroundColor: 'lightblue',
-    },
-});
 
 export default Rangecar;

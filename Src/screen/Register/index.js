@@ -34,11 +34,11 @@ const Register = ({ navigation }) => {
   const [info, setInfo] = useState('');
 
   return (
-    <LinearGradient colors={['#00C7E5', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
+    <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
       <KeyboardAwareScrollView
         contentContainerStyle={{
           flexGrow: 1,
-          height: verticalScale(760),
+          height: verticalScale(790),
         }}
       >
         <SafeAreaView style={styles.container}>

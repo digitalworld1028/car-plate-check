@@ -28,10 +28,13 @@ const Single = (props) => {
                 height: verticalScale(85),
                 width: horizontalScale(295),
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                justifyContent: 'space-around',
+                // backgroundColor: 'blue',
+                // width: '100%',
             }}>
                 <View style={{
                     height: verticalScale(90),
+                    width: horizontalScale(220),
                     flexDirection: 'column',
                     justifyContent: 'space-around',
                 }}>
@@ -45,19 +48,27 @@ const Single = (props) => {
                             width: horizontalScale(35),
                             height: horizontalScale(35),
                         }} /> */}
-                        {type === 'cal' && <Image source={Images.ic_cal} style={{
-                            width: verticalScale(33),
-                            height: verticalScale(33),
-                        }} />}
-                        {type === 'extintor' && <Image source={Images.ic_extintor} style={{
-                            width: verticalScale(30),
-                            height: verticalScale(42),
-                        }} />}
+                        <View style={{
+                            width: horizontalScale(35),
+                            height: verticalScale(45),
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                            {type === 'cal' && <Image source={Images.ic_cal} style={{
+                                width: verticalScale(30),
+                                height: verticalScale(30),
+                            }} />}
+                            {type === 'extintor' && <Image source={Images.ic_extintor} style={{
+                                width: verticalScale(30),
+                                height: verticalScale(42),
+                            }} />}
+                        </View>
 
                         <View style={{
                             flexDirection: 'column',
                             marginLeft: horizontalScale(15),
                             justifyContent: 'space-around',
+                            width: horizontalScale(190)
                         }}>
                             <Text style={{
                                 fontSize: verticalScale(18),
@@ -85,8 +96,8 @@ const Single = (props) => {
                         </View>
                     </View>
 
-                    { range && <Rangecar range={range} />}
-                                           
+                    {range && <Rangecar range={range} />}
+
 
                 </View>
                 <View style={{

@@ -8,6 +8,7 @@ const Loginwith = (props) => {
         icon,
         text,
         bgcolor,
+        borderColor,
         ...restProps
     } = props;
     return (
@@ -15,22 +16,22 @@ const Loginwith = (props) => {
             width: '100%',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginTop: horizontalScale(5),
+            marginTop: verticalScale(5),
         }}>
             <View>
                 <TouchableOpacity>
                     <View style={{
-                        borderColor: '#00C7E5',
-                        borderWidth: horizontalScale(1),
-                        height: horizontalScale(45),
-                        width: horizontalScale(45),
+                        borderColor: borderColor,
+                        borderWidth: verticalScale(1),
+                        height: verticalScale(45),
+                        width: verticalScale(45),
                         justifyContent: 'center',
                         alignItems: 'center',
-                        borderRadius: horizontalScale(5),
+                        borderRadius: verticalScale(5),
                     }}>
                         <Image source={icon} style={{
-                            height: horizontalScale(25),
-                            width: horizontalScale(25),
+                            height: verticalScale(25),
+                            width: verticalScale(25),
                             resizeMode: 'contain',
                         }}></Image>
                     </View>
@@ -39,17 +40,18 @@ const Loginwith = (props) => {
             <View>
                 <TouchableOpacity {...restProps}>
                     <View style={{
-                        borderColor: '#00C7E5',
-                        borderWidth: horizontalScale(1),
-                        height: horizontalScale(45),
+                        borderColor: borderColor,
+                        borderWidth: verticalScale(1),
+                        height: verticalScale(45),
                         width: horizontalScale(245),
                         justifyContent: 'center',
                         alignItems: 'center',
-                        borderRadius: horizontalScale(5),
+                        borderRadius: verticalScale(5),
+                        backgroundColor: bgcolor,
                     }}>
                         <Text style={{
                             fontWeight: 400,
-                            fontSize: horizontalScale(14),
+                            fontSize: verticalScale(16),
                             alignItems: 'center',
                             fontFamily: 'RobotoCondensed',
                             color: '#00416E',

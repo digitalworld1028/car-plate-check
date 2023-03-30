@@ -56,6 +56,7 @@ const Addcar = ({ navigation }) => {
 
     const plateNumberRef = useRef();
     const typeRef = useRef();
+    const distanceRef = useRef();
     const driverIDRef = useRef();
     const soatRef = useRef();
     const tecnoRef = useRef();
@@ -64,6 +65,7 @@ const Addcar = ({ navigation }) => {
 
     const [plateNumber, setPlateNumber] = useState('');
     const [type, setType] = useState('');
+    const [distance, setDistance] = useState('');
     const [driverID, setDriverID] = useState('');
     const [soat, setSoat] = useState('');
     const [tecno, setTecno] = useState('');
@@ -73,12 +75,12 @@ const Addcar = ({ navigation }) => {
 
 
     return (
-        <LinearGradient colors={['#00C7E5', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
+        <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
 
             <KeyboardAwareScrollView
                 contentContainerStyle={{
                     flexGrow: 1,
-                    height: verticalScale(775),
+                    height: verticalScale(800),
                 }}
             >
 
@@ -158,7 +160,7 @@ const Addcar = ({ navigation }) => {
                                 fontSize: verticalScale(19),
                                 color: '#1A1C20',
                                 fontFamily: 'RobotoCondensed-Regular',
-                                marginTop: verticalScale(43),
+                                marginTop: verticalScale(5),
                                 letterSpacing: verticalScale(3),
                             }}>
                             INFORMACIÓN DEL AUTO
@@ -166,7 +168,7 @@ const Addcar = ({ navigation }) => {
                         <Text
                             style={{
                                 fontWeight: 300,
-                                fontSize: verticalScale(18),
+                                fontSize: verticalScale(16),
                                 color: '#1A1C20',
                                 width: horizontalScale(270),
                                 textAlign: 'center',
@@ -179,12 +181,12 @@ const Addcar = ({ navigation }) => {
                         width: '100%',
                         height: verticalScale(1),
                         backgroundColor: '#BFBFBF',
-                        marginTop: verticalScale(16),
+                        marginTop: verticalScale(10),
                     }}></View>
                     <View
                         style={{
                             width: '100%',
-                            marginTop: verticalScale(10),
+                            marginTop: verticalScale(5),
                         }}>
 
                         <InputField
@@ -199,6 +201,17 @@ const Addcar = ({ navigation }) => {
                         />
 
                         <SelectType setType={setType} />
+
+                        <InputField
+                            ref={distanceRef}
+                            value={distance}
+                            marginVertical={6}
+                            onChangeText={v => setDistance(v)}
+                            onSubmitEditing={() => { }}
+                            placeholder={'Ingrese el kilometraje de su carro'}
+                            isLeft={true}
+                            leftIcon={Images.ico_car}
+                        />
 
                         <InputField
                             ref={driverIDRef}

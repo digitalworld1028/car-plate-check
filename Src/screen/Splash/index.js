@@ -10,7 +10,7 @@ import Button from '../../components/Button';
 
 const Splash = ({ navigation }) => {
   return (
-    <LinearGradient colors={['#FFFFFF', '#00c7e50d']} locations={[0.1071, 0.8602]} useAngle={true} angle={163.64} style={styles.gradient}>
+    <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} useAngle={true} angle={193.03} style={styles.gradient}>
       <SafeAreaView style={styles.container}>
         <Image
           resizeMode={'contain'}
