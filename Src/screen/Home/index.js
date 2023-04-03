@@ -69,7 +69,7 @@ const Home = ({ navigation }) => {
         info.forEach((item, index) => {
           let status, status2, status3, status4;
           let status1 = 'good';
-          console.log("aaa");
+          console.log("aaasdfsd");
           var range2 = 0, range3 = 0, range4 = 0;
           let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
           let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
