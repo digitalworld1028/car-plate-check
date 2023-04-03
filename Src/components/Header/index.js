@@ -8,8 +8,6 @@ import { Text } from "@rneui/base";
 const Header = (props) => {
     const {
         username,
-        navigation,
-        uid,
     } = props;
     return (
         <View style={{
@@ -54,20 +52,14 @@ const Header = (props) => {
                             fontSize: verticalScale(18),
                             color: '#FF401E',
                             fontWeight: 700,
-                            fontFamily: 'RobotoCondensed',
+                            fontFamily: 'RobotoCondensed-Regular',
                         }}>1.000</Text>
                         <Text style={{
                             fontSize: verticalScale(11),
                             color: '#393B3E',
                             fontWeight: 300,
-                            fontFamily: 'RobotoCondensed',
+                            fontFamily: 'RobotoCondensed-Regular',
                         }}> PUNTOS</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Addcar', {
-                            uid: uid,
-                            username: username,
-                        })}>
-                            <Text>  add</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </View>

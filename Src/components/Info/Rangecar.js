@@ -16,20 +16,29 @@ const Rangecar = (props) => {
 
 
     return (
-        <LinearGradient colors={['#002337', '#F3401F']} locations={[0, 1]} useAngle={true} angle={90} >
-            <View style={{
-                height: horizontalScale(5),
-                // width: horizontalScale(230),
-                justifyContent: 'center',
-            }}>
-                <Image source={Images.range_car} style={{
+        <View style={{
+            // height: horizontalScale(15),
+            // backgroundColor: 'red',
+            // justifyContent: 'center',
+            marginTop: horizontalScale(5),
+        }}>
+            <LinearGradient colors={['#002337', '#F3401F']} locations={[0, 1]} useAngle={true} angle={90} >
+                <View style={{
+                    height: horizontalScale(5),
+                    justifyContent: 'center',
+                }}>
+                </View>
+            </LinearGradient>
+            <Image source={Images.range_car}
+                style={{
                     height: horizontalScale(15),
                     width: horizontalScale(30),
                     resizeMode: 'contain',
-                    marginLeft: horizontalScale(16 * range),
-                }} />
-            </View>
-        </LinearGradient>
+                    marginLeft: horizontalScale(19 * range),
+                    marginTop: horizontalScale(-10),
+                }}
+            />
+        </View>
     );
 };
 

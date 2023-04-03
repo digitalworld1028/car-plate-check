@@ -75,7 +75,7 @@ const Addcar = ({ navigation }) => {
 
 
     return (
-        <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
+        <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[0, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
 
             <KeyboardAwareScrollView
                 contentContainerStyle={{
@@ -146,7 +146,7 @@ const Addcar = ({ navigation }) => {
                             style={{
                                 width: horizontalScale(110),
                                 height: verticalScale(155),
-                                marginTop: verticalScale(40),
+                                marginTop: Platform.OS == 'ios' ? verticalScale(15) : verticalScale(25),
                             }}
                         />
                     </View>
@@ -307,6 +307,7 @@ const Addcar = ({ navigation }) => {
                             onPress={() => {
                                 console.log(plateNumber);
                                 console.log(type);
+                                console.log(distance);
                                 console.log(driverID);
                                 console.log(soat);
                                 console.log(tecno);
@@ -316,12 +317,12 @@ const Addcar = ({ navigation }) => {
                                     uid: uid,
                                     plateNumber: plateNumber,
                                     type: type,
+                                    distance: distance,
                                     driverID: driverID,
                                     soat: soat,
                                     tecno: tecno,
                                     extintor: extintor,
                                 });
-
 
 
                                 // let data = [

@@ -36,6 +36,7 @@ const Addother = ({ navigation }) => {
 
     const plateNumber = route.params?.plateNumber;
     const type = route.params?.type;
+    const distance = route.params?.distance;
     const driverID = route.params?.driverID;
     const soat = route.params?.soat;
     const tecno = route.params?.tecno;
@@ -45,7 +46,7 @@ const Addother = ({ navigation }) => {
 
 
     return (
-        <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
+        <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[0, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
             <KeyboardAwareScrollView
                 contentContainerStyle={{
                     flexGrow: 1,
@@ -142,7 +143,7 @@ const Addother = ({ navigation }) => {
                                 width: '100%',
                                 flexDirection: 'row',
                                 justifyContent: 'space-around',
-                                marginTop: verticalScale(260),
+                                marginTop: Platform.OS == 'ios' ? verticalScale(248) : verticalScale(256),
                             }}>
                             <Button label={'ATRAS'} onPress={() => {
                                 navigation.navigate('Addcar');
@@ -150,51 +151,52 @@ const Addother = ({ navigation }) => {
                             <Button label={'SIGUIENTE'} onPress={() => {
                                 console.log(department);
                                 console.log(city);
-                                navigation.navigate('Autocarousel');
+                                // navigation.navigate('Autocarousel');
 
-                                // let data = {
-                                //     type: type,
-                                //     plateNumber: plateNumber,
-                                //     driverID: driverID,
-                                //     department: department,
-                                //     city: city,
-                                //     soat: soat,
-                                //     tecno: tecno,
-                                //     extintor: extintor,
-                                // };
-                                // firestore()
-                                //     .collection('users')
-                                //     .doc(uid)
-                                //     .get()
-                                //     .then(documentSnapshot => {
-                                //         console.log('User exists: ', documentSnapshot.exists);
+                                let data = {
+                                    type: type,
+                                    plateNumber: plateNumber,
+                                    distance: distance,
+                                    driverID: driverID,
+                                    department: department,
+                                    city: city,
+                                    soat: soat,
+                                    tecno: tecno,
+                                    extintor: extintor,
+                                };
+                                firestore()
+                                    .collection('users')
+                                    .doc(uid)
+                                    .get()
+                                    .then(documentSnapshot => {
+                                        console.log('User exists: ', documentSnapshot.exists);
 
-                                //         if (documentSnapshot.exists) {
-                                //             console.log('User data: ', documentSnapshot.data());
-                                //             let olddata = documentSnapshot.data().info;
-                                //             olddata.push(data);
-                                //             console.log(olddata);
+                                        if (documentSnapshot.exists) {
+                                            console.log('User data: ', documentSnapshot.data());
+                                            let olddata = documentSnapshot.data().info;
+                                            olddata.push(data);
+                                            console.log(olddata);
 
 
-                                //             firestore()
-                                //                 .collection('users')
-                                //                 .doc(uid)
-                                //                 .set({
-                                //                     info: olddata
-                                //                 }, {
-                                //                     merge: true
-                                //                 })
-                                //                 .then(() => {
-                                //                     console.log('User added!');
-                                //                 });
+                                            firestore()
+                                                .collection('users')
+                                                .doc(uid)
+                                                .set({
+                                                    info: olddata
+                                                }, {
+                                                    merge: true
+                                                })
+                                                .then(() => {
+                                                    console.log('User added!');
+                                                });
 
-                                //             navigation.navigate('Home', {
-                                //                 username: username,
-                                //                 uid: uid,
-                                //                 info: olddata,
-                                //             });
-                                //         }
-                                //     });
+                                            navigation.navigate('Home', {
+                                                username: username,
+                                                uid: uid,
+                                                info: olddata,
+                                            });
+                                        }
+                                    });
 
 
 

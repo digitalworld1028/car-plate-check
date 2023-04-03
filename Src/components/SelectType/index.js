@@ -12,8 +12,8 @@ const SelectType = (props) => {
     } = props;
 
     const types = [
-        { title: 'Car', image: Images.ic_car },
-        { title: 'Motor', image: Images.ic_motor },
+        { title: 'car', image: Images.ic_car },
+        { title: 'motor', image: Images.ic_motor },
     ];
 
     return (

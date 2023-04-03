@@ -59,7 +59,7 @@ const Autocarousel = ({ navigation }) => {
 
     return (
 
-        <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
+        <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[0, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
             <SafeAreaView style={styles.container}>
                 <View style={{
                     width: verticalScale(327),
@@ -99,24 +99,22 @@ const Autocarousel = ({ navigation }) => {
                         style={{
                             fontStyle: 'normal',
                             fontSize: verticalScale(32),
-                            fontWeight: 700,
                             color: '#1A1C20',
                             width: verticalScale(260),
                             textAlign: 'center',
-                            fontFamily: 'RobotoCondensed',
+                            fontFamily: 'RobotoCondensed-Bold',
                         }}>
                         Administrar uno o
                         más vehículos
                     </Text>
                     <Text
                         style={{
-                            fontWeight: 300,
                             fontSize: verticalScale(18),
                             color: '#1A1C20',
                             width: verticalScale(320),
                             paddingTop: verticalScale(10),
                             textAlign: 'center',
-                            fontFamily: 'RobotoCondensed',
+                            fontFamily: 'RobotoCondensed-Regular',
                         }}>
                         Agrega, administra y mantén actualizados los roles de tus vehículos
                     </Text>

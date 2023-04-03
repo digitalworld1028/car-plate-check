@@ -16,6 +16,7 @@ const Plate = props => {
         city,
         status,
         clickedId,
+        distance,
         ...restOfProps
     } = props;
     return (
@@ -71,7 +72,7 @@ const Plate = props => {
                         fontFamily: 'RobotoCondensed-Bold',
                         textAlign: 'center',
                         letterSpacing: verticalScale(1),
-                    }}><Text style={{fontSize: verticalScale(16)}}>888.998</Text><Text style={{fontSize: verticalScale(12),}}> Km</Text></Text>
+                    }}><Text style={{fontSize: verticalScale(16)}}>{distance}</Text><Text style={{fontSize: verticalScale(12),}}> Km</Text></Text>
                 </View>
             </View>
             <View style={{ width: horizontalScale(2) }}>
@@ -110,7 +111,7 @@ const Plate = props => {
                         <Text style={{
                             color: 'white',
                             fontSize: verticalScale(50),
-                            marginTop: verticalScale(-10),
+                            marginTop: verticalScale(-5),
                             fontFamily: 'RobotoCondensed-Bold',
                         }}>
                             {platenumber.substr(0, 3) + '•' + platenumber.substr(3, 6)}

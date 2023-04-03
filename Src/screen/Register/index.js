@@ -34,7 +34,7 @@ const Register = ({ navigation }) => {
   const [info, setInfo] = useState('');
 
   return (
-    <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[-0.699, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
+    <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[0, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
       <KeyboardAwareScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -153,6 +153,7 @@ const Register = ({ navigation }) => {
             <Text style={{
               textAlign: 'center',
               color: 'red',
+              height: verticalScale(30),
             }}>{info}</Text>
           </View>
 
@@ -250,117 +251,75 @@ const Register = ({ navigation }) => {
             <Button
               label={'SIGUIENTE'}
               onPress={() => {
-                navigation.navigate('Addcar');
-                // if (userName == '') {
-                //   console.log('Please input username!');
-                //   setInfo('Please input username!');
-                // }
-                // else if (password == '' && confirPass == '') {
-                //   console.log('Please input password!');
-                //   setInfo('Please input password!');
-                // }
-                // else if (password != confirPass) {
-                //   console.log('Please confirm password!');
-                //   setInfo('Please confirm password!');
-                // }
-                // else if (!check) {
-                //   console.log('please check!');
-                //   setInfo('Please check!');
-                // }
-                // else {
-                //   auth()
-                //     .createUserWithEmailAndPassword(email, password)
-                //     .then((data) => {
-                //       console.log('User account created & signed in!');
-                //       console.log(data.user.uid);
+                // navigation.navigate('Addcar');
+
+                if (userName == '') {
+                  console.log('Please input username!');
+                  setInfo('Please input username!');
+                }
+                else if (password == '' && confirPass == '') {
+                  console.log('Please input password!');
+                  setInfo('Please input password!');
+                }
+                else if (password != confirPass) {
+                  console.log('Please confirm password!');
+                  setInfo('Please confirm password!');
+                }
+                else if (!check) {
+                  console.log('please check!');
+                  setInfo('Please check!');
+                }
+                else {
+                  auth()
+                    .createUserWithEmailAndPassword(email, password)
+                    .then((data) => {
+                      console.log('User account created & signed in!');
+                      console.log(data.user.uid);
 
 
-                //       firestore()
-                //         .collection('users')
-                //         .doc(data.user.uid)
-                //         .set({
-                //           name: userName,
-                //           email: email,
-                //           password: password,
-                //           info: [],
-                //         })
-                //         .then(() => {
-                //           console.log('User added!');
-                //         });
+                      firestore()
+                        .collection('users')
+                        .doc(data.user.uid)
+                        .set({
+                          name: userName,
+                          email: email,
+                          password: password,
+                          info: [],
+                        })
+                        .then(() => {
+                          console.log('User added!');
+                        });
 
-                //       Alert.alert(
-                //         'Created Successful!',
-                //         'Created Successful!',
-                //         [
-                //           {
-                //             text: 'OK',
-                //             onPress: () => navigation.navigate('Splash'),
-                //           }
-                //         ]
-                //       );
-                //     })
-                //     .catch(error => {
-                //       if (error.code === 'auth/email-already-in-use') {
-                //         console.log('That email address is already in use!');
-                //         setInfo('That email address is already in use!');
-                //       }
+                      Alert.alert(
+                        'Created Successful!',
+                        'Created Successful!',
+                        [
+                          {
+                            text: 'OK',
+                            onPress: () => navigation.navigate('Splash'),
+                          }
+                        ]
+                      );
+                    })
+                    .catch(error => {
+                      if (error.code === 'auth/email-already-in-use') {
+                        console.log('That email address is already in use!');
+                        setInfo('That email address is already in use!');
+                      }
 
-                //       if (error.code === 'auth/invalid-email') {
-                //         console.log('That email address is invalid!');
-                //         setInfo('The email address is badly formatted!');
-                //       }
+                      if (error.code === 'auth/invalid-email') {
+                        console.log('That email address is invalid!');
+                        setInfo('The email address is badly formatted!');
+                      }
 
-                //       if (error.code === 'auth/weak-password') {
-                //         console.log('Password should be at least 6 characters!');
-                //         setInfo('Password should be at least 6 characters!');
-                //       }
+                      if (error.code === 'auth/weak-password') {
+                        console.log('Password should be at least 6 characters!');
+                        setInfo('Password should be at least 6 characters!');
+                      }
 
-                //       // console.error(error);
-                //     });
-                // }
-
-                // auth()
-                //   .createUserWithEmailAndPassword(email, password)
-                //   .then((data) => {
-                //     console.log('User account created & signed in!');
-                //     console.log(data.user.uid);
-
-
-                //     firestore()
-                //       .collection('users')
-                //       .doc(data.user.uid)
-                //       .set({
-                //         name: userName,
-                //         email: email,
-                //         password: password,
-                //         info: [],
-                //       })
-                //       .then(() => {
-                //         console.log('User added!');
-                //       });
-
-                //     Alert.alert(
-                //       'Created Successful!',
-                //       'Created Successful!',
-                //       [
-                //         {
-                //           text: 'OK',
-                //           onPress: () => navigation.navigate('Splash'),
-                //         }
-                //       ]
-                //     );
-                //   })
-                //   .catch(error => {
-                //     if (error.code === 'auth/email-already-in-use') {
-                //       console.log('That email address is already in use!');
-                //     }
-
-                //     if (error.code === 'auth/invalid-email') {
-                //       console.log('That email address is invalid!');
-                //     }
-
-                //     console.error(error);
-                //   });
+                      // console.error(error);
+                    });
+                }
               }}
             />
           </View>

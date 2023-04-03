@@ -53,7 +53,7 @@ const Loginwith = (props) => {
                             fontWeight: 400,
                             fontSize: verticalScale(16),
                             alignItems: 'center',
-                            fontFamily: 'RobotoCondensed',
+                            fontFamily: 'RobotoCondensed-Regular',
                             color: '#00416E',
                         }}>{text}</Text>
                     </View>
