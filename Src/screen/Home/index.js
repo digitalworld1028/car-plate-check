@@ -77,7 +77,6 @@ const Home = ({ navigation }) => {
           diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
           diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
 
-          console.log(diffDate2, diffDate3, diffDate4);
 
           if (diffDate2 >= 10) {
             range2 = 0;
