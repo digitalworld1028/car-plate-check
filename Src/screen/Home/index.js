@@ -73,7 +73,7 @@ const Home = ({ navigation }) => {
         setCurrent('2000-01-01');
         console.log('11111111', formatDate(json.datetime));
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error)); 
   }, []);
   console.log(current)
 
