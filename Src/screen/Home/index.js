@@ -15,19 +15,19 @@ import { styles } from './styles';
 import Images from '../../utils/Images';
 
 
-// const formatDate = (date) => {
-//   var d = new Date(date),
-//     month = '' + (d.getMonth() + 1),
-//     day = '' + d.getDate(),
-//     year = d.getFullYear();
+const formatDate = (date) => {
+  var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
 
-//   if (month.length < 2)
-//     month = '0' + month;
-//   if (day.length < 2)
-//     day = '0' + day;
+  if (month.length < 2)
+    month = '0' + month;
+  if (day.length < 2)
+    day = '0' + day;
 
-//   return [year, month, day].join('-');
-// }
+  return [year, month, day].join('-');
+}
 
 const backformatDate = (date) => {
   var d = new Date(date),
@@ -59,77 +59,82 @@ const Home = ({ navigation }) => {
   const username = route.params?.username;
   const uid = route.params?.uid;
   const info = route.params?.info;
+  console.log(info);
+  console.log(new Date().toString());
 
   const getCurrentInfo = () => {
-    fetch('https://worldtimeapi.org/api/timezone/America/Bogota')
-      .then((resp) => resp.json())
-      .then((json) => {
-        let current_time = json.datetime.substring(0, 10);
-        let temp_arr = [];
-        info.forEach((item, index) => {
-          let status, status2, status3, status4;
-          let status1 = 'good';
-          console.log("aaasdfsdsdfsdfsdfsdf");
-          var range2 = 0, range3 = 0, range4 = 0;
-          let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
-          let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
-          let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
-          diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
-          diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
-          diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
+    let current_time = formatDate(new Date());
+    let temp_arr = [];
+    info.forEach((item, index) => {
+      let status, status2, status3, status4;
+      let status1 = 'good';
+      console.log("aaasdfsdsdfsdfsdfsdf");
+      var range2 = 0, range3 = 0, range4 = 0;
+      let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
+      let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
+      let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
+      diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
+      diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
+      diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
 
 
-          if (diffDate2 >= 10) {
-            range2 = 0;
-          } else if (diffDate2 >= 0) {
-            range2 = 10 - diffDate2;
-          } else range2 = 10;
+      if (diffDate2 >= 10) {
+        range2 = 0;
+      } else if (diffDate2 >= 0) {
+        range2 = 10 - diffDate2;
+      } else range2 = 10;
 
-          if (diffDate3 >= 10) {
-            range3 = 0;
-          } else if (diffDate3 >= 0) {
-            range3 = 10 - diffDate3;
-          } else range3 = 10;
+      if (diffDate3 >= 10) {
+        range3 = 0;
+      } else if (diffDate3 >= 0) {
+        range3 = 10 - diffDate3;
+      } else range3 = 10;
 
-          if (diffDate4 >= 10) {
-            range4 = 0;
-          } else if (diffDate4 >= 0) {
-            range4 = 10 - diffDate4;
-          } else range4 = 10;
+      if (diffDate4 >= 10) {
+        range4 = 0;
+      } else if (diffDate4 >= 0) {
+        range4 = 10 - diffDate4;
+      } else range4 = 10;
 
-          if (status2 == 'good' && status3 == 'good' && status4 == 'good') {
-            status = 'good';
-          }
+      if (status2 == 'good' && status3 == 'good' && status4 == 'good') {
+        status = 'good';
+      }
 
-          let temp = {
-            id: index,
-            title: {
-              type: item.type,
-              platenumber: item.plateNumber,
-              city: item.city,
-              distance: item.distance,
-              status: status
-            },
-            content: {
-              status: status,
-              status1: status1,
-              current: backformatDate(current_time),
-              status2: status2,
-              range2: range2,
-              soat: backformatDate(item.soat.replaceAll('/', '-')),
-              status3: status3,
-              range3: range3,
-              tecno: backformatDate(item.tecno.replaceAll('/', '-')),
-              status4: status4,
-              range4: range4,
-              extintor: backformatDate(item.extintor.replaceAll('/', '-')),
-            }
-          }
-          temp_arr = [temp, ...temp_arr];
-        });
-        setCarData(temp_arr);
-      })
-      .catch((error) => console.error(error));
+      let temp = {
+        id: index,
+        title: {
+          type: item.type,
+          platenumber: item.plateNumber,
+          city: item.city,
+          distance: item.distance,
+          status: status
+        },
+        content: {
+          status: status,
+          status1: status1,
+          current: backformatDate(current_time),
+          status2: status2,
+          range2: range2,
+          soat: backformatDate(item.soat.replaceAll('/', '-')),
+          status3: status3,
+          range3: range3,
+          tecno: backformatDate(item.tecno.replaceAll('/', '-')),
+          status4: status4,
+          range4: range4,
+          extintor: backformatDate(item.extintor.replaceAll('/', '-')),
+        }
+      }
+      temp_arr = [temp, ...temp_arr];
+    });
+    setCarData(temp_arr);
+    // fetch('https://worldtimeapi.org/api/timezone/America/Bogota')
+    //   .then((resp) => resp.json())
+    //   .then((json) => {
+    //     console.log(json);
+    //     console.log(new Date());
+
+    //   })
+    //   .catch((error) => console.error('aaa', error));
   }
 
   useEffect(() => {

@@ -301,34 +301,47 @@ const Addcar = ({ navigation }) => {
                         <Button
                             label={'SIGUIENTE'}
                             onPress={() => {
-                                if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
-                                    // if (Platform.OS === 'android') {
-                                    //     ToastAndroid.show('Please input all!', ToastAndroid.SHORT)
-                                    // } else {
-                                    //     AlertIOS.alert("Please input all!");
-                                    // }
-                                    console.log('aa');
+
+                                navigation.navigate('Addother', {
+                                    username: username,
+                                    uid: uid,
+                                    plateNumber: plateNumber,
+                                    type: type,
+                                    distance: distance,
+                                    driverID: driverID,
+                                    soat: soat,
+                                    tecno: tecno,
+                                    extintor: extintor,
+                                });
+                                
+                                // if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
+                                //     // if (Platform.OS === 'android') {
+                                //     //     ToastAndroid.show('Please input all!', ToastAndroid.SHORT)
+                                //     // } else {
+                                //     //     AlertIOS.alert("Please input all!");
+                                //     // }
+                                //     console.log('aa');
                                     
-                                    Toast.show({
-                                        type: 'error',
-                                        text1: 'warning',
-                                        text2: 'Please input all!',
-                                    });
+                                //     Toast.show({
+                                //         type: 'error',
+                                //         text1: 'warning',
+                                //         text2: 'Please input all!',
+                                //     });
                                     
-                                }
-                                else {
-                                    navigation.navigate('Addother', {
-                                        username: username,
-                                        uid: uid,
-                                        plateNumber: plateNumber,
-                                        type: type,
-                                        distance: distance,
-                                        driverID: driverID,
-                                        soat: soat,
-                                        tecno: tecno,
-                                        extintor: extintor,
-                                    });
-                                }
+                                // }
+                                // else {
+                                //     navigation.navigate('Addother', {
+                                //         username: username,
+                                //         uid: uid,
+                                //         plateNumber: plateNumber,
+                                //         type: type,
+                                //         distance: distance,
+                                //         driverID: driverID,
+                                //         soat: soat,
+                                //         tecno: tecno,
+                                //         extintor: extintor,
+                                //     });
+                                // }
 
 
 
