@@ -20,9 +20,9 @@ const Info = (props) => {
         range4,
         textColor,
     } = props;
+
     console.log(range2, range3, range4);
 
-    // test
     return (
         <View>
             <Showtext status={status} />

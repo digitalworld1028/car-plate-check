@@ -19,6 +19,8 @@ const Single = (props) => {
         range,
         firstLine,
     } = props;
+    console.log(range);
+
     return (
         <View style={{
             // marginVertical: horizontalScale(5),
@@ -96,7 +98,7 @@ const Single = (props) => {
                         </View>
                     </View>
 
-                    {range && <Rangecar range={range} />}
+                    {range != undefined && <Rangecar range={range} />}
 
 
                 </View>
