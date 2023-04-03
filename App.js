@@ -17,6 +17,10 @@ import Autocarousel from './Src/screen/Autocarousel/index.js';
 import Addcar from './Src/screen/Add/Addcar.js';
 import Addother from './Src/screen/Add/Addother.js';
 
+import Toast from 'react-native-toast-message';
+
+
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -30,9 +34,11 @@ const App = () => {
         <Stack.Screen name="Addcar" component={Addcar} />
         <Stack.Screen name="Addother" component={Addother} />
         <Stack.Screen name="Autocarousel" component={Autocarousel} />
-
+        
       </Stack.Navigator>
+      <Toast />
     </NavigationContainer>
+    
   );
 };
 

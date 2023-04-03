@@ -47,6 +47,7 @@
     "react-native-select-dropdown": "^3.3.0",
     "react-native-sliders": "^2.0.2",
     "react-native-snap-carousel": "^3.9.1",
+    "react-native-toast-message": "^2.1.6",
     "react-native-vector-icons": "^9.2.0"
   },
   "devDependencies": {

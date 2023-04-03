@@ -190,11 +190,29 @@ const Addother = ({ navigation }) => {
                                                     console.log('User added!');
                                                 });
 
-                                            navigation.navigate('Home', {
-                                                username: username,
-                                                uid: uid,
-                                                info: olddata,
-                                            });
+                                            // navigation.navigate('Home', {
+                                            //     username: username,
+                                            //     uid: uid,
+                                            //     info: olddata,
+                                            // });
+
+                                            firestore()
+                                                .collection('users')
+                                                .doc(uid)
+                                                .get()
+                                                .then(documentSnapshot => {
+                                                    console.log('User exists: ', documentSnapshot.exists);
+
+                                                    if (documentSnapshot.exists) {
+                                                        console.log('User data: ', username);
+                                                        console.log('User uid: ', uid);
+                                                        navigation.navigate('Home', {
+                                                            username: username,
+                                                            uid: uid,
+                                                            info: documentSnapshot.data().info,
+                                                        });
+                                                    }
+                                                });
                                         }
                                     });
 

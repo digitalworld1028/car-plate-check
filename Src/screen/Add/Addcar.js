@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { Text, View, Image, TouchableOpacity, ToastAndroid, AlertIOS } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import InputField from '../../components/InputField';
@@ -20,6 +20,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import firestore from '@react-native-firebase/firestore';
 
 import { useRoute } from "@react-navigation/native";
+
+import Toast from 'react-native-toast-message';
 
 
 
@@ -83,6 +85,7 @@ const Addcar = ({ navigation }) => {
                     height: verticalScale(800),
                 }}
             >
+                
 
                 <SafeAreaView style={styles.container}>
 
@@ -97,7 +100,6 @@ const Addcar = ({ navigation }) => {
                             <DatePicker
                                 onSelectedChange={date => {
                                     setSelectedSoatDate(date);
-                                    console.log(selectedSoatDate);
                                 }}
                                 mode="calendar"
                             />
@@ -114,7 +116,6 @@ const Addcar = ({ navigation }) => {
                             <DatePicker
                                 onSelectedChange={date => {
                                     setSelectedTecnoDate(date);
-                                    console.log(selectedTecnoDate);
                                 }}
                                 mode="calendar"
                             />
@@ -131,7 +132,6 @@ const Addcar = ({ navigation }) => {
                             <DatePicker
                                 onSelectedChange={date => {
                                     setSelectedExtintorDate(date);
-                                    console.log(selectedTecnoDate);
                                 }}
                                 mode="calendar"
                             />
@@ -226,9 +226,7 @@ const Addcar = ({ navigation }) => {
 
                         <TouchableOpacity
                             onPress={() => {
-                                console.log('pressed!!');
                                 toggleSoatModal();
-                                console.log(isSoatModalVisible);
                             }}
                         >
                             <InputField
@@ -249,7 +247,6 @@ const Addcar = ({ navigation }) => {
 
                         <TouchableOpacity
                             onPress={() => {
-                                console.log('pressed!!');
                                 toggleTecnoModal();
                             }}
                         >
@@ -271,7 +268,6 @@ const Addcar = ({ navigation }) => {
 
                         <TouchableOpacity
                             onPress={() => {
-                                console.log('pressed!!');
                                 toggleExtintorModal();
                             }}
                         >
@@ -300,29 +296,40 @@ const Addcar = ({ navigation }) => {
                             marginTop: verticalScale(10),
                         }}>
                         <Button label={'ATRAS'} onPress={() => {
-                            navigation.navigate('Register');
+                            navigation.goBack();
                         }} bgColor={'#00416E'} width={115} />
                         <Button
                             label={'SIGUIENTE'}
                             onPress={() => {
-                                console.log(plateNumber);
-                                console.log(type);
-                                console.log(distance);
-                                console.log(driverID);
-                                console.log(soat);
-                                console.log(tecno);
-                                console.log(extintor);
-                                navigation.navigate('Addother', {
-                                    username: username,
-                                    uid: uid,
-                                    plateNumber: plateNumber,
-                                    type: type,
-                                    distance: distance,
-                                    driverID: driverID,
-                                    soat: soat,
-                                    tecno: tecno,
-                                    extintor: extintor,
-                                });
+                                if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
+                                    // if (Platform.OS === 'android') {
+                                    //     ToastAndroid.show('Please input all!', ToastAndroid.SHORT)
+                                    // } else {
+                                    //     AlertIOS.alert("Please input all!");
+                                    // }
+                                    console.log('aa');
+                                    
+                                    Toast.show({
+                                        type: 'error',
+                                        text1: 'warning',
+                                        text2: 'Please input all!',
+                                    });
+                                    
+                                }
+                                else {
+                                    navigation.navigate('Addother', {
+                                        username: username,
+                                        uid: uid,
+                                        plateNumber: plateNumber,
+                                        type: type,
+                                        distance: distance,
+                                        driverID: driverID,
+                                        soat: soat,
+                                        tecno: tecno,
+                                        extintor: extintor,
+                                    });
+                                }
+
 
 
                                 // let data = [
