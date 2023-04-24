@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { horizontalScale } from '../../screen/Metrics';
+import { horizontalScale, verticalScale } from '../../screen/Metrics';
 
 export const styles = StyleSheet.create({
     good: {
@@ -19,5 +19,6 @@ export const styles = StyleSheet.create({
         // fontWeight: 500,
         fontFamily: 'RobotoCondensed-Regular',
         textAlign: 'center',
+        fontSize: verticalScale(14),
     }
 });

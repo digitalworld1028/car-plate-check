@@ -8,7 +8,6 @@ import Images from '../../utils/Images';
 import { horizontalScale, verticalScale, moderateSacle } from '../Metrics';
 
 import Button from '../../components/Button';
-// import { CheckBox, Icon } from '@rneui/themed';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -16,7 +15,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-import CheckBox from 'react-native-check-box'
+import CheckBox from 'react-native-check-box';
+// import { CheckBox, Icon } from '@rneui/themed';
+
+
+
 
 import { styles } from './styles';
 
@@ -163,27 +166,6 @@ const Register = ({ navigation }) => {
               flexDirection: 'column',
               marginTop: verticalScale(-12),
             }}>
-            {/* <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <CheckBox
-                center
-                title="Al crear una cuenta, acepta los Términos de uso y nuestra Política de privacidad."
-                checked={check}
-                containerStyle={{
-                  backgroundColor: null,
-                }}
-                textStyle={{
-                  fontSize: horizontalScale(12),
-                  fontFamily: 'RobotoCondensed',
-                }}
-                onPress={() => setCheck(!check)}
-              />
-            </View> */}
             <View style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -194,6 +176,11 @@ const Register = ({ navigation }) => {
               <View style={{
                 width: '10%',
               }}>
+
+                {/* <CheckBox
+                  checked={check}
+                  onPress={() => setCheck(!check)}
+                /> */}
 
                 <CheckBox
                   onClick={() => {
@@ -239,7 +226,6 @@ const Register = ({ navigation }) => {
                   fontFamily: 'Roboto Condensed',
                 }}>
                 <Text>¿Ya tienes una cuenta? <Text style={{ color: '#FF6700', fontFamily: 'RobotoCondensed-Bold', }}>Iniciar sesión</Text></Text>
-                {/* {'¿Ya tienes una cuenta? Iniciar sesión'} */}
               </Text>
             </View>
           </View>

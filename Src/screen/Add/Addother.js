@@ -31,7 +31,6 @@ const Addother = ({ navigation }) => {
 
 
     const route = useRoute();
-    const username = route.params?.username;
     const uid = route.params?.uid;
 
     const plateNumber = route.params?.plateNumber;
@@ -189,23 +188,24 @@ const Addother = ({ navigation }) => {
                                                 .then(() => {
                                                     console.log('User added!');
 
-                                                    firestore()
-                                                        .collection('users')
-                                                        .doc(uid)
-                                                        .get()
-                                                        .then(documentSnapshot => {
-                                                            console.log('User exists: ', documentSnapshot.exists);
+                                                    navigation.navigate('Home', {
+                                                        uid: uid,
+                                                    });
 
-                                                            if (documentSnapshot.exists) {
-                                                                console.log('User data: ', username);
-                                                                console.log('User uid: ', uid);
-                                                                navigation.navigate('Home', {
-                                                                    username: username,
-                                                                    uid: uid,
-                                                                    info: documentSnapshot.data().info,
-                                                                });
-                                                            }
-                                                        });
+                                                    // firestore()
+                                                    //     .collection('users')
+                                                    //     .doc(uid)
+                                                    //     .get()
+                                                    //     .then(documentSnapshot => {
+                                                    //         console.log('User exists: ', documentSnapshot.exists);
+
+                                                    //         if (documentSnapshot.exists) {
+                                                    //             console.log('User uid: ', uid);
+                                                    //             navigation.navigate('Home', {
+                                                    //                 uid: uid,
+                                                    //             });
+                                                    //         }
+                                                    //     });
                                                 });
 
                                             // navigation.navigate('Home', {

@@ -190,23 +190,27 @@ const Login = ({ navigation }) => {
                                         console.log('singed in!!!');
                                         console.log(userCredential.user.uid);
 
-                                        firestore()
-                                            .collection('users')
-                                            .doc(userCredential.user.uid)
-                                            .get()
-                                            .then(documentSnapshot => {
-                                                console.log('User exists: ', documentSnapshot.exists);
+                                        navigation.navigate('Home', {
+                                            uid: userCredential.user.uid,
+                                        });
 
-                                                if (documentSnapshot.exists) {
-                                                    console.log('User data: ', documentSnapshot.data().name);
-                                                    console.log('User uid: ', userCredential.user.uid);
-                                                    navigation.navigate('Home', {
-                                                        username: documentSnapshot.data().name,
-                                                        uid: userCredential.user.uid,
-                                                        info: documentSnapshot.data().info,
-                                                    });
-                                                }
-                                            });
+                                        // firestore()
+                                        //     .collection('users')
+                                        //     .doc(userCredential.user.uid)
+                                        //     .get()
+                                        //     .then(documentSnapshot => {
+                                        //         console.log('User exists: ', documentSnapshot.exists);
+
+                                        //         if (documentSnapshot.exists) {
+                                        //             console.log('User data: ', documentSnapshot.data().name);
+                                        //             console.log('User uid: ', userCredential.user.uid);
+                                        //             navigation.navigate('Home', {
+                                        //                 username: documentSnapshot.data().name,
+                                        //                 uid: userCredential.user.uid,
+                                        //                 info: documentSnapshot.data().info,
+                                        //             });
+                                        //         }
+                                        //     });
 
 
                                         // ...

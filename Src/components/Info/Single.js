@@ -19,7 +19,6 @@ const Single = (props) => {
         range,
         firstLine,
     } = props;
-    console.log(range);
 
     return (
         <View style={{
@@ -98,8 +97,7 @@ const Single = (props) => {
                         </View>
                     </View>
 
-                    {range != undefined && <Rangecar range={range} />}
-
+                    {range != undefined &&  <Rangecar range={range < 0 ? 10 : range} /> }
 
                 </View>
                 <View style={{

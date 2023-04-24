@@ -7,7 +7,6 @@ const Footer = (props) => {
     const {
         navigation,
         uid,
-        username,
     } = props;
     return (
         <View style={{
@@ -22,7 +21,6 @@ const Footer = (props) => {
             <TouchableOpacity
                 onPress={() => navigation.navigate('Addcar', {
                     uid: uid,
-                    username: username,
                 })}
             >
                 <Image source={Images.ico_cargar} />

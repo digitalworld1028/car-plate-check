@@ -4,6 +4,8 @@ import { horizontalScale, verticalScale } from '../../screen/Metrics';
 import { AccordionList } from "accordion-collapse-react-native";
 import { Separator } from 'native-base';
 
+import firestore from '@react-native-firebase/firestore';
+
 
 import Images from '../../utils/Images';
 import { styles } from './styles';
@@ -11,6 +13,7 @@ import { styles } from './styles';
 
 const Plate = props => {
     const {
+        uid,
         type,
         platenumber,
         city,
@@ -48,7 +51,7 @@ const Plate = props => {
                     paddingTop: verticalScale(13),
                 }}>
                     <View>
-                        <Image source={Images.ic_car} style={{
+                        <Image source={type === 'car' ? Images.ic_car : Images.ic_motor} style={{
                             width: horizontalScale(52),
                             height: verticalScale(37),
                             resizeMode: 'contain',
@@ -59,7 +62,7 @@ const Plate = props => {
                         <Text style={{
                             color: 'black',
                             fontSize: verticalScale(12),
-                        }}>{'+ TU AUTO'}</Text>
+                        }}>{type === 'car' && '+ TU AUTO'}{type === 'motor' && '+ TU MOTO'}</Text>
                     </View>
                 </View>
                 <View style={{
@@ -72,7 +75,7 @@ const Plate = props => {
                         fontFamily: 'RobotoCondensed-Bold',
                         textAlign: 'center',
                         letterSpacing: verticalScale(1),
-                    }}><Text style={{fontSize: verticalScale(16)}}>{distance}</Text><Text style={{fontSize: verticalScale(12),}}> Km</Text></Text>
+                    }}><Text style={{ fontSize: verticalScale(16) }}>{distance}</Text><Text style={{ fontSize: verticalScale(12), }}> Km</Text></Text>
                 </View>
             </View>
             <View style={{ width: horizontalScale(2) }}>
@@ -95,7 +98,36 @@ const Plate = props => {
                         paddingLeft: horizontalScale(180),
                         height: verticalScale(17),
                     }}>
-                        <TouchableOpacity onPress={() => console.log('delete click!!')}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                firestore()
+                                    .collection('users')
+                                    .doc(uid)
+                                    .get()
+                                    .then(documentSnapshot => {
+                                        let olddata = documentSnapshot.data().info;
+                                        let newdata = [];
+                                        olddata.map((item, index) => {
+                                            if (item.plateNumber !== platenumber) {
+                                                newdata.push(item);
+                                            }
+                                        });
+
+                                        firestore()
+                                            .collection('users')
+                                            .doc(uid)
+                                            .set({
+                                                info: newdata
+                                            }, {
+                                                merge: true
+                                            })
+                                            .then(() => {
+                                                console.log('deleted!!!');
+                                            });
+
+                                    });
+                            }}
+                        >
                             <Image source={Images.ic_delete} resizeMode={'contain'} style={{
                                 width: verticalScale(14),
                                 height: verticalScale(14),

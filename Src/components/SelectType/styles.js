@@ -26,6 +26,11 @@ export const styles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 14,
     },
+    dropdown3BtnTxtSelect: {
+        color: '#FF6700',
+        textAlign: 'left',
+        fontSize: 14,
+    },
     // dropdown3DropdownStyle: { backgroundColor: '#FF6700' },
     dropdown3RowStyle: {
         backgroundColor: 'white',
@@ -49,7 +54,7 @@ export const styles = StyleSheet.create({
     dropdown3RowTxt: {
         color: '#FF6700',
         textAlign: 'center',
-        fontSize: horizontalScale(15),
+        fontSize: horizontalScale(17),
         marginHorizontal: 12,
     },
 

@@ -51,7 +51,9 @@ const SelectType = (props) => {
                         <View style={{
                             flex: 1,
                         }}>
-                            <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select type'}</Text>
+                            {/* <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select type'}</Text> */}
+                            {!selectedItem && <Text style={styles.dropdown3BtnTxt}>Select type</Text>}
+                            {selectedItem && <Text style={styles.dropdown3BtnTxtSelect}>{selectedItem.title}</Text>}
                         </View>
                         {/* <FontAwesome name="chevron-down" color={'#444'} size={18} /> */}
                         <Image source={Images.ico_bottom} style={{

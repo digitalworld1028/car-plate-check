@@ -30,9 +30,7 @@ import { styles } from './styles';
 const Addcar = ({ navigation }) => {
 
     const route = useRoute();
-    const username = route.params?.username;
     const uid = route.params?.uid;
-    console.log(username + uid);
 
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedSoatDate, setSelectedSoatDate] = useState('');
@@ -85,7 +83,7 @@ const Addcar = ({ navigation }) => {
                     height: verticalScale(800),
                 }}
             >
-                
+
 
                 <SafeAreaView style={styles.container}>
 
@@ -249,6 +247,9 @@ const Addcar = ({ navigation }) => {
                             onPress={() => {
                                 toggleTecnoModal();
                             }}
+                            style={{
+
+                            }}
                         >
                             <InputField
                                 ref={tecnoRef}
@@ -270,6 +271,8 @@ const Addcar = ({ navigation }) => {
                             onPress={() => {
                                 toggleExtintorModal();
                             }}
+                            disabled={type === 'motor' ? true : false}
+                            style={type === 'motor' ? { opacity: 0.3 } : { opacity: 1 }}
                         >
                             <InputField
                                 ref={extintorRef}
@@ -286,6 +289,8 @@ const Addcar = ({ navigation }) => {
                                 editable={false}
                             />
                         </TouchableOpacity>
+
+
                     </View>
 
                     <View
@@ -302,46 +307,39 @@ const Addcar = ({ navigation }) => {
                             label={'SIGUIENTE'}
                             onPress={() => {
 
-                                navigation.navigate('Addother', {
-                                    username: username,
-                                    uid: uid,
-                                    plateNumber: plateNumber,
-                                    type: type,
-                                    distance: distance,
-                                    driverID: driverID,
-                                    soat: soat,
-                                    tecno: tecno,
-                                    extintor: extintor,
-                                });
-                                
-                                // if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
-                                //     // if (Platform.OS === 'android') {
-                                //     //     ToastAndroid.show('Please input all!', ToastAndroid.SHORT)
-                                //     // } else {
-                                //     //     AlertIOS.alert("Please input all!");
-                                //     // }
-                                //     console.log('aa');
-                                    
-                                //     Toast.show({
-                                //         type: 'error',
-                                //         text1: 'warning',
-                                //         text2: 'Please input all!',
-                                //     });
-                                    
-                                // }
-                                // else {
-                                //     navigation.navigate('Addother', {
-                                //         username: username,
-                                //         uid: uid,
-                                //         plateNumber: plateNumber,
-                                //         type: type,
-                                //         distance: distance,
-                                //         driverID: driverID,
-                                //         soat: soat,
-                                //         tecno: tecno,
-                                //         extintor: extintor,
-                                //     });
-                                // }
+                                // navigation.navigate('Addother', {
+                                //     username: username,
+                                //     uid: uid,
+                                //     plateNumber: plateNumber,
+                                //     type: type,
+                                //     distance: distance,
+                                //     driverID: driverID,
+                                //     soat: soat,
+                                //     tecno: tecno,
+                                //     extintor: extintor,
+                                // });
+                                if(type === 'motor') setExtintor('0000-00-00');
+
+                                if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
+                                    Toast.show({
+                                        type: 'error',
+                                        text1: 'warning',
+                                        text2: 'Please input all!',
+                                    });
+
+                                }
+                                else {
+                                    navigation.navigate('Addother', {
+                                        uid: uid,
+                                        plateNumber: plateNumber,
+                                        type: type,
+                                        distance: distance,
+                                        driverID: driverID,
+                                        soat: soat,
+                                        tecno: tecno,
+                                        extintor: extintor,
+                                    });
+                                }
 
 
 
