@@ -271,8 +271,8 @@ const Addcar = ({ navigation }) => {
                             onPress={() => {
                                 toggleExtintorModal();
                             }}
-                            disabled={type === 'motor' ? true : false}
-                            style={type === 'motor' ? { opacity: 0.3 } : { opacity: 1 }}
+                            disabled={type === 'motorycle' ? true : false}
+                            style={type === 'motorycle' ? { opacity: 0.3 } : { opacity: 1 }}
                         >
                             <InputField
                                 ref={extintorRef}
@@ -318,7 +318,7 @@ const Addcar = ({ navigation }) => {
                                 //     tecno: tecno,
                                 //     extintor: extintor,
                                 // });
-                                if(type === 'motor') setExtintor('0000-00-00');
+                                if(type === 'motorycle') setExtintor('0000-00-00');
 
                                 if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
                                     Toast.show({

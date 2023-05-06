@@ -51,7 +51,7 @@ const Plate = props => {
                     paddingTop: verticalScale(13),
                 }}>
                     <View>
-                        <Image source={type === 'car' ? Images.ic_car : Images.ic_motor} style={{
+                        <Image source={type === 'particular' ? Images.ic_car : Images.ic_motor} style={{
                             width: horizontalScale(52),
                             height: verticalScale(37),
                             resizeMode: 'contain',
@@ -62,7 +62,7 @@ const Plate = props => {
                         <Text style={{
                             color: 'black',
                             fontSize: verticalScale(12),
-                        }}>{type === 'car' && '+ TU AUTO'}{type === 'motor' && '+ TU MOTO'}</Text>
+                        }}>{type === 'particular' && '+ TU AUTO'}{type === 'motorycle' && '+ TU MOTO'}</Text>
                     </View>
                 </View>
                 <View style={{

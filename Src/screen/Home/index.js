@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, ScrollView, Image, Platform } from 'react-native';
+import { Text, View, ScrollView, Image, Platform, PermissionsAndroid } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+
 import { horizontalScale, verticalScale } from '../Metrics';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -56,6 +58,115 @@ const diffDate = (date1, date2) => {
 
 
 const Home = ({ navigation }) => {
+
+  const [currentLongitude, setCurrentLongitude] = useState('...');
+  const [currentLatitude, setCurrentLatitude] = useState('...');
+  const [locationStatus, setLocationStatus] = useState('');
+  const [currentCity, setCurrentCity] = useState('');
+  const [apikey, setApiKey] = useState('');
+
+  firestore()
+    .collection('api')
+    .doc('map')
+    .get()
+    .then(documentSnapshot => {
+      if (documentSnapshot.exists) {
+        setApiKey(documentSnapshot.data().key);
+      }
+    });
+
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      if (Platform.OS === 'ios') {
+        getOneTimeLocation();
+        subscribeLocationLocation();
+      } else {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Location Access Required',
+              message: 'This App needs to Access your location',
+            },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            //To Check, If Permission is granted
+            getOneTimeLocation();
+            subscribeLocationLocation();
+          } else {
+            setLocationStatus('Permission Denied');
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      }
+    };
+    requestLocationPermission();
+    return () => {
+      Geolocation.clearWatch(watchID);
+    };
+  }, []);
+
+  const getOneTimeLocation = () => {
+    setLocationStatus('Getting Location ...');
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+      (position) => {
+        setLocationStatus('You are Here');
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        //getting the Longitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        //getting the Latitude from the location json
+        setCurrentLongitude(currentLongitude);
+        //Setting state Longitude to re re-render the Longitude Text
+        setCurrentLatitude(currentLatitude);
+        //Setting state Latitude to re re-render the Longitude Text
+      },
+      (error) => {
+        setLocationStatus(error.message);
+      },
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 1000 },
+    );
+  };
+
+  const subscribeLocationLocation = () => {
+    watchID = Geolocation.watchPosition(
+      (position) => {
+        setLocationStatus('You are Here');
+        //Will give you the location on location change
+        console.log(position);
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        //getting the Longitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        //getting the Latitude from the location json
+        setCurrentLongitude(currentLongitude);
+        //Setting state Longitude to re re-render the Longitude Text
+        setCurrentLatitude(currentLatitude);
+        //Setting state Latitude to re re-render the Longitude Text
+
+
+        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + currentLatitude + ',' + currentLongitude + '&key=' + apikey)
+          .then(response => response.json())
+          .then(data => {
+            data['results'][0]['address_components'].map((item, index) => {
+              if(item['types'].includes('locality'))
+              {
+                setCurrentCity(item['long_name']);
+              }
+            })
+          });
+
+
+
+      },
+      (error) => {
+        setLocationStatus(error.message);
+      },
+      { enableHighAccuracy: true, maximumAge: 1000 },
+    );
+  };
+
   const [isExpanded, setIsExpanded] = useState(0);
   const [carData, setCarData] = useState([]);
   const [username, setUsername] = useState('');
@@ -82,6 +193,8 @@ const Home = ({ navigation }) => {
         let current_day = days[day];
         let date_day = new Date().getDate();
         let current_hour = new Date().getHours();
+        console.log('current_hour', current_hour);
+        console.log('current_day', current_day);
 
         let temp_arr = [];
 
@@ -92,96 +205,243 @@ const Home = ({ navigation }) => {
           .get()
           .then(documentSnapshot => {
             rules = documentSnapshot.data();
+            console.log(rules['type']);
+            if (rules['method'] === 1) {
+              info.forEach((item, index) => {
 
+                let status, status2, status3, status4;
+                let status1;
+                var range2 = 0, range3 = 0, range4 = 0;
+                let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
+                let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
+                let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
 
-            info.forEach((item, index) => {
-              let status, status2, status3, status4;
-              let status1;
-              var range2 = 0, range3 = 0, range4 = 0;
-              let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
-              let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
-              let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
-
-              if (current_day === 5 || current_day === 6) {
-                status1 = 'good';
-              }
-              else {
-                // if(current_hour >= rules.type.particular.time.start && current_hour < rules.type.particular.time.end)
-                // {
-                //   console.log('haha');
-                // }
-
-                let last_number = parseInt(item.plateNumber.slice(-1));
-                if (rules.rule.even === 'even') {
-                  if (date_day % 2 === last_number % 2) {
-                    status1 = 'danger';
+                console.log(rules.type[item.type]);
+                if (rules.type[item.type] === undefined) {
+                  status1 = 'good';
+                }
+                else {
+                  if (current_day === 5 || current_day === 6) {
+                    status1 = 'good';
                   }
-                  else status1 = 'good';
-                }
-                if (rules.rule.even === 'odd') {
-                  if (date_day % 2 !== last_number % 2) {
-                    status1 = 'danger';
+                  else {
+                    // if(current_hour >= rules.type.particular.time.start && current_hour < rules.type.particular.time.end)
+                    // {
+                    //   console.log('haha');
+                    // }
+
+                    let last_number = parseInt(item.plateNumber.slice(-1));
+                    // let item_type = item.type;
+
+                    if (rules.type[item.type].rule.even === 'even') {
+                      if (date_day % 2 === last_number % 2 && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
+                        status1 = 'danger';
+                      }
+                      else status1 = 'good';
+                    }
+                    if (rules.type[item.type].rule.even === 'odd') {
+                      if (date_day % 2 !== last_number % 2 && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
+                        status1 = 'danger';
+                      }
+                      else status1 = 'good';
+                    }
+
                   }
-                  else status1 = 'good';
                 }
 
-              }
+                console.log(diffDate2, diffDate3, diffDate4);
 
-              diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
-              diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
-              diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
-
-
-              if (diffDate2 >= 10) {
-                range2 = 0;
-              } else if (diffDate2 >= 0) {
-                range2 = 10 - diffDate2;
-              } else range2 = diffDate2;
-
-              if (diffDate3 >= 10) {
-                range3 = 0;
-              } else if (diffDate3 >= 0) {
-                range3 = 10 - diffDate3;
-              } else range3 = diffDate3;
-
-              if (diffDate4 >= 10) {
-                range4 = 0;
-              } else if (diffDate4 >= 0) {
-                range4 = 10 - diffDate4;
-              } else range4 = diffDate4;
-
-
-              if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
-              else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
-              else status = 'danger';
-
-              let temp = {
-                id: index,
-                title: {
-                  type: item.type,
-                  platenumber: item.plateNumber,
-                  city: item.city,
-                  distance: item.distance,
-                  status: status
-                },
-                content: {
-                  type: item.type,
-                  status: status,
-                  status1: status1,
-                  current: backformatDate(current_time),
-                  status2: status2,
-                  range2: range2,
-                  soat: backformatDate(item.soat.replaceAll('/', '-')),
-                  status3: status3,
-                  range3: range3,
-                  tecno: backformatDate(item.tecno.replaceAll('/', '-')),
-                  status4: status4,
-                  range4: range4,
-                  extintor: backformatDate(item.extintor.replaceAll('/', '-')),
+                diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
+                diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
+                if (item.type !== 'motorycle') {
+                  diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
                 }
-              }
-              temp_arr = [temp, ...temp_arr];
-            });
+
+                if (diffDate2 >= 10) {
+                  range2 = 0;
+                } else if (diffDate2 >= 0) {
+                  range2 = 10 - diffDate2;
+                } else range2 = diffDate2;
+
+                if (diffDate3 >= 10) {
+                  range3 = 0;
+                } else if (diffDate3 >= 0) {
+                  range3 = 10 - diffDate3;
+                } else range3 = diffDate3;
+
+                if (item.type !== 'motorycle') {
+                  if (diffDate4 >= 10) {
+                    range4 = 0;
+                  } else if (diffDate4 >= 0) {
+                    range4 = 10 - diffDate4;
+                  } else range4 = diffDate4;
+
+                }
+
+                if (item.type !== 'motorycle') {
+                  if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
+                  else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
+                  else status = 'danger';
+                }
+                else {
+                  if (status1 == 'good' && status2 == 'good' && status3 == 'good') status = 'good';
+                  else status = 'danger';
+                }
+
+                let temp = {
+                  id: index,
+                  title: {
+                    type: item.type,
+                    platenumber: item.plateNumber,
+                    city: item.city,
+                    distance: item.distance,
+                    status: status
+                  },
+                  content: {
+                    type: item.type,
+                    status: status,
+                    status1: status1,
+                    current: backformatDate(current_time),
+                    status2: status2,
+                    range2: range2,
+                    soat: backformatDate(item.soat.replaceAll('/', '-')),
+                    status3: status3,
+                    range3: range3,
+                    tecno: backformatDate(item.tecno.replaceAll('/', '-')),
+                    status4: status4,
+                    range4: range4,
+                    extintor: backformatDate(item.extintor.replaceAll('/', '-')),
+                  }
+                }
+                temp_arr = [temp, ...temp_arr];
+
+
+
+
+
+              });
+            }
+
+            if (rules['method'] === 2) {
+              info.forEach((item, index) => {
+
+                let status, status2, status3, status4;
+                let status1;
+                var range2 = 0, range3 = 0, range4 = 0;
+                let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
+                let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
+                let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
+
+                console.log(rules.type[item.type]);
+                if (rules.type[item.type] === undefined) {
+                  status1 = 'good';
+                }
+                else {
+                  if (current_day === 5 || current_day === 6) {
+                    status1 = 'good';
+                  }
+                  else {
+                    // if(current_hour >= rules.type.particular.time.start && current_hour < rules.type.particular.time.end)
+                    // {
+                    //   console.log('haha');
+                    // }
+
+                    let last_number = parseInt(item.plateNumber.slice(-1));
+                    // let item_type = item.type;
+                    // if (rules.type[item.type].rule.even === 'even') {
+                    //   if (date_day % 2 === last_number % 2) {
+                    //     status1 = 'danger';
+                    //   }
+                    //   else status1 = 'good';
+                    // }
+                    // if (rules.type[item.type].rule.even === 'odd') {
+                    //   if (date_day % 2 !== last_number % 2) {
+                    //     status1 = 'danger';
+                    //   }
+                    //   else status1 = 'good';
+                    // }
+
+
+                    if (rules.type[item.type].rule[current_day].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
+                      status1 = 'danger';
+                    }
+                    else status1 = 'good';
+
+                  }
+                }
+
+                console.log(diffDate2, diffDate3, diffDate4);
+
+                diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
+                diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
+                if (item.type !== 'motorycle') {
+                  diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
+                }
+
+                if (diffDate2 >= 10) {
+                  range2 = 0;
+                } else if (diffDate2 >= 0) {
+                  range2 = 10 - diffDate2;
+                } else range2 = diffDate2;
+
+                if (diffDate3 >= 10) {
+                  range3 = 0;
+                } else if (diffDate3 >= 0) {
+                  range3 = 10 - diffDate3;
+                } else range3 = diffDate3;
+
+                if (item.type !== 'motorycle') {
+                  if (diffDate4 >= 10) {
+                    range4 = 0;
+                  } else if (diffDate4 >= 0) {
+                    range4 = 10 - diffDate4;
+                  } else range4 = diffDate4;
+
+                }
+
+                if (item.type !== 'motorycle') {
+                  if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
+                  else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
+                  else status = 'danger';
+                }
+                else {
+                  if (status1 == 'good' && status2 == 'good' && status3 == 'good') status = 'good';
+                  else status = 'danger';
+                }
+
+                let temp = {
+                  id: index,
+                  title: {
+                    type: item.type,
+                    platenumber: item.plateNumber,
+                    city: item.city,
+                    distance: item.distance,
+                    status: status
+                  },
+                  content: {
+                    type: item.type,
+                    status: status,
+                    status1: status1,
+                    current: backformatDate(current_time),
+                    status2: status2,
+                    range2: range2,
+                    soat: backformatDate(item.soat.replaceAll('/', '-')),
+                    status3: status3,
+                    range3: range3,
+                    tecno: backformatDate(item.tecno.replaceAll('/', '-')),
+                    status4: status4,
+                    range4: range4,
+                    extintor: backformatDate(item.extintor.replaceAll('/', '-')),
+                  }
+                }
+                temp_arr = [temp, ...temp_arr];
+
+
+
+
+
+              });
+            }
             setCarData(temp_arr);
           })
 
@@ -243,7 +503,7 @@ const Home = ({ navigation }) => {
           <Text style={{
             marginLeft: horizontalScale(10),
             fontSize: verticalScale(13),
-          }}>ESTÁS EN BOGOTÁ</Text>
+          }}>ESTÁS EN {currentCity}</Text>
         </View>
 
 
