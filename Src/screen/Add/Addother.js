@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 
 import { Text, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,23 +11,27 @@ import Button from '../../components/Button';
 import LinearGradient from 'react-native-linear-gradient';
 
 
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { useRoute } from "@react-navigation/native";
 
 import firestore from '@react-native-firebase/firestore';
 
+import ActionSheet from 'react-native-actionsheet';
+
 import { styles } from './styles';
+
+
 
 const Addother = ({ navigation }) => {
 
     ///////////////////////////////////////////////
-    const departmentRef = useRef();
     const cityRef = useRef();
 
 
-    const [department, setDepartment] = useState('');
     const [city, setCity] = useState('');
+    const [cityList, setCityList] = useState([]);
 
 
     const route = useRoute();
@@ -40,6 +44,28 @@ const Addother = ({ navigation }) => {
     const soat = route.params?.soat;
     const tecno = route.params?.tecno;
     const extintor = route.params?.extintor;
+
+    let actionSheet = useRef();
+    const showActionSheet = () => {
+        //To show the Bottom ActionSheet
+        actionSheet.current.show();
+    };
+
+
+
+    useEffect(() => {
+        firestore().collection('rules')
+            .onSnapshot(querySnapshot => {
+                let temp = []
+                querySnapshot.forEach(documentSnapshot => {
+                    console.log(documentSnapshot.id)
+                    temp.push(documentSnapshot.id)
+                    // setCityList((prev) => [...prev, documentSnapshot.id])
+                })
+                temp.push('Cancel')
+                setCityList(temp)
+            })
+    }, [])
 
 
 
@@ -113,27 +139,24 @@ const Addother = ({ navigation }) => {
                                     width: '100%',
                                     marginTop: horizontalScale(10),
                                 }}>
+                                <TouchableOpacity
+                                    style={{
+                                        width: '100%'
+                                    }}
+                                    onPress={showActionSheet}>
+                                    <InputField
+                                        ref={cityRef}
+                                        value={city}
+                                        marginVertical={6}
+                                        onChangeText={v => setCity(v)}
+                                        onSubmitEditing={() => { }}
+                                        placeholder={'Ciudad'}
+                                        isLeft={true}
+                                        leftIcon={Images.ico_location}
+                                        editable={false}
+                                    />
+                                </TouchableOpacity>
 
-                                <InputField
-                                    ref={departmentRef}
-                                    value={department}
-                                    marginVertical={6}
-                                    onChangeText={v => setDepartment(v)}
-                                    onSubmitEditing={() => { }}
-                                    placeholder={'Departamento'}
-                                    isLeft={true}
-                                    leftIcon={Images.ico_location}
-                                />
-                                <InputField
-                                    ref={cityRef}
-                                    value={city}
-                                    marginVertical={6}
-                                    onChangeText={v => setCity(v)}
-                                    onSubmitEditing={() => { }}
-                                    placeholder={'Ciudad'}
-                                    isLeft={true}
-                                    leftIcon={Images.ico_location}
-                                />
                             </View>
                         </View>
 
@@ -142,14 +165,12 @@ const Addother = ({ navigation }) => {
                                 width: '100%',
                                 flexDirection: 'row',
                                 justifyContent: 'space-around',
-                                marginTop: Platform.OS == 'ios' ? verticalScale(248) : verticalScale(256),
+                                marginTop: Platform.OS == 'ios' ? verticalScale(302) : verticalScale(310),
                             }}>
                             <Button label={'ATRAS'} onPress={() => {
                                 navigation.navigate('Addcar');
                             }} bgColor={'#00416E'} width={115} />
                             <Button label={'SIGUIENTE'} onPress={() => {
-                                console.log(department);
-                                console.log(city);
                                 // navigation.navigate('Autocarousel');
 
                                 let data = {
@@ -157,12 +178,12 @@ const Addother = ({ navigation }) => {
                                     plateNumber: plateNumber,
                                     distance: distance,
                                     driverID: driverID,
-                                    department: department,
                                     city: city,
                                     soat: soat,
                                     tecno: tecno,
                                     extintor: extintor,
                                 };
+                                console.log(data)
                                 firestore()
                                     .collection('users')
                                     .doc(uid)
@@ -245,6 +266,25 @@ const Addother = ({ navigation }) => {
                             }} width={165} />
                         </View>
                     </SafeAreaView>
+
+                    <ActionSheet
+                        useNativeDriver={true}
+                        ref={actionSheet}
+                        // Title of the Bottom Sheet
+                        title={'Which one do you like ?'}
+                        // Options Array to show in bottom sheet
+                        options={cityList}
+                        // Define cancel button index in the option array
+                        // This will take the cancel option in bottom
+                        // and will highlight it
+                        cancelButtonIndex={cityList.length - 1}
+                        // Highlight any specific option
+                        destructiveButtonIndex={cityList.length - 1}
+                        onPress={(index) => {
+                            if (index !== cityList.length - 1) setCity(cityList[index]);
+
+                        }}
+                    />
                 </KeyboardAwareScrollView>
             </KeyboardAwareScrollView>
         </LinearGradient>

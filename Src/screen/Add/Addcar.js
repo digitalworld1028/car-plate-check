@@ -27,6 +27,15 @@ import Toast from 'react-native-toast-message';
 
 import { styles } from './styles';
 
+function notifyMessage(msg) {
+    if (Platform.OS === 'android') {
+        ToastAndroid.show(msg, ToastAndroid.SHORT)
+    } else {
+        AlertIOS.alert(msg);
+    }
+}
+
+
 const Addcar = ({ navigation }) => {
 
     const route = useRoute();
@@ -191,7 +200,31 @@ const Addcar = ({ navigation }) => {
                             ref={plateNumberRef}
                             value={plateNumber}
                             marginVertical={6}
-                            onChangeText={v => setPlateNumber(v)}
+                            onChangeText={v => {
+                                setPlateNumber(v);
+                                let firstPart = v.slice(0, 3);
+                                let secondPart = v.slice(3, 6);
+                                let isUpperCase = /^[A-Z]*$/.test(firstPart);
+                                let isNum = /^\d+$/.test(secondPart);
+                                if (!isUpperCase && v.length === 3) {
+                                    notifyMessage('The first 3 characters must be uppercase.');
+                                    setPlateNumber('');
+                                }
+                                else {
+                                    if (!isNum && v.length > 3 && v.length === 6) {
+                                        notifyMessage('The last 3 characters must be number.');
+                                        setPlateNumber(v.substr(0, 3));
+                                    }
+                                    else {
+                                        if (v.length > 6) {
+                                            notifyMessage('License plate number must be 6 digits.');
+                                            setPlateNumber(v.substr(0, 6));
+                                        }
+                                    }
+                                }
+
+
+                            }}
                             onSubmitEditing={() => { }}
                             placeholder={'Número de Placa'}
                             isLeft={true}
@@ -204,7 +237,14 @@ const Addcar = ({ navigation }) => {
                             ref={distanceRef}
                             value={distance}
                             marginVertical={6}
-                            onChangeText={v => setDistance(v)}
+                            onChangeText={v => {
+                                setDistance(v);
+                                let isFloat = /^[0-9]+(\.)?[0-9]*$/.test(v);
+                                if (!isFloat) {
+                                    notifyMessage('It must be number!');
+                                    setDistance('');
+                                }
+                            }}
                             onSubmitEditing={() => { }}
                             placeholder={'Ingrese el kilometraje de su carro'}
                             isLeft={true}
@@ -215,7 +255,14 @@ const Addcar = ({ navigation }) => {
                             ref={driverIDRef}
                             value={driverID}
                             marginVertical={6}
-                            onChangeText={v => setDriverID(v)}
+                            onChangeText={v => {
+                                setDriverID(v);
+                                let isNum = /^\d+$/.test(v);
+                                if(!isNum) {
+                                    notifyMessage('It must be number!');
+                                    setDriverID('');
+                                }
+                            }}
                             onSubmitEditing={() => { }}
                             placeholder={'Número de la Licencia'}
                             isLeft={true}
@@ -307,39 +354,39 @@ const Addcar = ({ navigation }) => {
                             label={'SIGUIENTE'}
                             onPress={() => {
 
-                                // navigation.navigate('Addother', {
-                                //     username: username,
-                                //     uid: uid,
-                                //     plateNumber: plateNumber,
-                                //     type: type,
-                                //     distance: distance,
-                                //     driverID: driverID,
-                                //     soat: soat,
-                                //     tecno: tecno,
-                                //     extintor: extintor,
-                                // });
-                                if(type === 'motorycle') setExtintor('0000-00-00');
+                                navigation.navigate('Addother', {
+                                    uid: uid,
+                                    plateNumber: plateNumber,
+                                    type: type,
+                                    distance: distance,
+                                    driverID: driverID,
+                                    soat: soat,
+                                    tecno: tecno,
+                                    extintor: extintor,
+                                });
 
-                                if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
-                                    Toast.show({
-                                        type: 'error',
-                                        text1: 'warning',
-                                        text2: 'Please input all!',
-                                    });
+                                // if (type === 'motorycle') setExtintor('0000-00-00');
 
-                                }
-                                else {
-                                    navigation.navigate('Addother', {
-                                        uid: uid,
-                                        plateNumber: plateNumber,
-                                        type: type,
-                                        distance: distance,
-                                        driverID: driverID,
-                                        soat: soat,
-                                        tecno: tecno,
-                                        extintor: extintor,
-                                    });
-                                }
+                                // if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
+                                //     Toast.show({
+                                //         type: 'error',
+                                //         text1: 'warning',
+                                //         text2: 'Please input all!',
+                                //     });
+
+                                // }
+                                // else {
+                                //     navigation.navigate('Addother', {
+                                //         uid: uid,
+                                //         plateNumber: plateNumber,
+                                //         type: type,
+                                //         distance: distance,
+                                //         driverID: driverID,
+                                //         soat: soat,
+                                //         tecno: tecno,
+                                //         extintor: extintor,
+                                //     });
+                                // }
 
 
 

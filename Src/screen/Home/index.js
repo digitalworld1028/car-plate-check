@@ -38,7 +38,7 @@ const formatDate = (date) => {
 const backformatDate = (date) => {
   var d = new Date(date),
     month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
+    day = '' + (d.getDate() + 1),
     year = d.getFullYear();
 
   if (month.length < 2)
@@ -64,6 +64,29 @@ const Home = ({ navigation }) => {
   const [locationStatus, setLocationStatus] = useState('');
   const [currentCity, setCurrentCity] = useState('');
   const [apikey, setApiKey] = useState('');
+  // const [cityList, setCityList] = useState([]);
+
+  // firestore()
+  //   .collection('rules')
+  //   .get()
+  //   .then(querySnapshot => {
+
+  //     let temp = [];
+
+  //     querySnapshot.forEach(documentSnapshot => {
+  //       temp.push(documentSnapshot.id);
+  //     });
+
+  //     console.log(temp);
+
+  //     setCityList(temp);
+
+  //   });
+
+  const cityList = ['Leticia', 'Medellín', 'Arauca', 'Barranquilla', 'Bogotá', 'Cartagena de Indias', 'Tunja',
+    'Manizales', 'Florencia', 'Yopal', 'Popayán', 'Valledupar', 'Quibdó', 'Montería', 'Inírida', 'San José del Guaviare',
+    'Neiva', 'Riohacha', 'Santa Marta', 'Villavicencio', 'Pasto', 'San José de Cúcuta', 'Mocoa', 'Armenia', 'Pereira',
+    'San Andrés', 'Bucaramanga', 'Sincelejo', 'Ibagué', 'Cali', 'Mitú', 'Puerto Carreño'];
 
   firestore()
     .collection('api')
@@ -135,7 +158,7 @@ const Home = ({ navigation }) => {
       (position) => {
         setLocationStatus('You are Here');
         //Will give you the location on location change
-        console.log(position);
+        console.log('position: ', position);
         const currentLongitude = JSON.stringify(position.coords.longitude);
         //getting the Longitude from the location json
         const currentLatitude = JSON.stringify(position.coords.latitude);
@@ -145,16 +168,24 @@ const Home = ({ navigation }) => {
         setCurrentLatitude(currentLatitude);
         //Setting state Latitude to re re-render the Longitude Text
 
-
-        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + currentLatitude + ',' + currentLongitude + '&key=' + apikey)
+        // console.log('api key = ', apikey);
+        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + currentLatitude + ',' + currentLongitude + '&key=AIzaSyAoGoRxR9Rn9VqvzdAnEHO0DScyv-YDqtY')
           .then(response => response.json())
           .then(data => {
-            data['results'][0]['address_components'].map((item, index) => {
-              if(item['types'].includes('locality'))
-              {
-                setCurrentCity(item['long_name']);
+            console.log('haha')
+            let formatted_address = data['results'][0]['formatted_address'];
+            console.log('formated_address', formatted_address);
+            cityList.map((item, index) => {
+              if (formatted_address.includes(item)) {
+                // console.log(item);
+                setCurrentCity(item);
               }
-            })
+            });
+            // data['results'][0]['address_components'].map((item, index) => {
+            //   if (item['types'].includes('locality')) {
+            //     setCurrentCity(item['long_name']);
+            //   }
+            // })
           });
 
 
@@ -187,6 +218,7 @@ const Home = ({ navigation }) => {
         setUsername(documentSnapshot.data().name);
 
         info = documentSnapshot.data().info;
+        console.log('info', info)
         let current_time = formatDate(new Date());
         let day = new Date().toString().substring(0, 3);
         let days = { 'Mon': 0, 'Tue': 1, 'Wed': 2, 'Thu': 3, 'Fri': 4, 'Sat': 5, 'Sun': 6 }
@@ -195,17 +227,17 @@ const Home = ({ navigation }) => {
         let current_hour = new Date().getHours();
         console.log('current_hour', current_hour);
         console.log('current_day', current_day);
+        console.log('current_time', current_time);
 
         let temp_arr = [];
 
-        let location = 'Bogota';
+        let location = 'Barranquilla';
         let rules;
 
         firestore().collection('rules').doc(location)
           .get()
           .then(documentSnapshot => {
             rules = documentSnapshot.data();
-            console.log(rules['type']);
             if (rules['method'] === 1) {
               info.forEach((item, index) => {
 
@@ -221,18 +253,11 @@ const Home = ({ navigation }) => {
                   status1 = 'good';
                 }
                 else {
+                  let last_number = parseInt(item.plateNumber.slice(-1));
                   if (current_day === 5 || current_day === 6) {
                     status1 = 'good';
                   }
                   else {
-                    // if(current_hour >= rules.type.particular.time.start && current_hour < rules.type.particular.time.end)
-                    // {
-                    //   console.log('haha');
-                    // }
-
-                    let last_number = parseInt(item.plateNumber.slice(-1));
-                    // let item_type = item.type;
-
                     if (rules.type[item.type].rule.even === 'even') {
                       if (date_day % 2 === last_number % 2 && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
                         status1 = 'danger';
@@ -247,9 +272,14 @@ const Home = ({ navigation }) => {
                     }
 
                   }
+                  rules.type[item.type].other.map((other_item, i) => {
+                    if (other_item.date === current_time) {
+                      if (other_item.number.includes(last_number) && current_hour >= other_item.time.start && current_hour <= other_item.time.end) {
+                        status1 = 'danger';
+                      }
+                    }
+                  })
                 }
-
-                console.log(diffDate2, diffDate3, diffDate4);
 
                 diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
                 diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
@@ -323,6 +353,7 @@ const Home = ({ navigation }) => {
             }
 
             if (rules['method'] === 2) {
+
               info.forEach((item, index) => {
 
                 let status, status2, status3, status4;
@@ -332,45 +363,136 @@ const Home = ({ navigation }) => {
                 let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
                 let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
 
-                console.log(rules.type[item.type]);
+
                 if (rules.type[item.type] === undefined) {
                   status1 = 'good';
                 }
                 else {
+                  let last_number = parseInt(item.plateNumber.slice(-1));
                   if (current_day === 5 || current_day === 6) {
                     status1 = 'good';
                   }
                   else {
-                    // if(current_hour >= rules.type.particular.time.start && current_hour < rules.type.particular.time.end)
-                    // {
-                    //   console.log('haha');
-                    // }
-
-                    let last_number = parseInt(item.plateNumber.slice(-1));
-                    // let item_type = item.type;
-                    // if (rules.type[item.type].rule.even === 'even') {
-                    //   if (date_day % 2 === last_number % 2) {
-                    //     status1 = 'danger';
-                    //   }
-                    //   else status1 = 'good';
-                    // }
-                    // if (rules.type[item.type].rule.even === 'odd') {
-                    //   if (date_day % 2 !== last_number % 2) {
-                    //     status1 = 'danger';
-                    //   }
-                    //   else status1 = 'good';
-                    // }
-
-
                     if (rules.type[item.type].rule[current_day].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
                       status1 = 'danger';
                     }
                     else status1 = 'good';
-
                   }
+
+                  rules.type[item.type].other.map((other_item, i) => {
+                    if (other_item.date === current_time) {
+                      if (other_item.number.includes(last_number) && current_hour >= other_item.time.start && current_hour <= other_item.time.end) {
+                        status1 = 'danger';
+                      }
+                    }
+                  })
                 }
 
-                console.log(diffDate2, diffDate3, diffDate4);
+
+                diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
+                diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
+                if (item.type !== 'motorycle') {
+                  diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
+                }
+
+                if (diffDate2 >= 10) {
+                  range2 = 0;
+                } else if (diffDate2 >= 0) {
+                  range2 = 10 - diffDate2;
+                } else range2 = diffDate2;
+
+                if (diffDate3 >= 10) {
+                  range3 = 0;
+                } else if (diffDate3 >= 0) {
+                  range3 = 10 - diffDate3;
+                } else range3 = diffDate3;
+
+                if (item.type !== 'motorycle') {
+                  if (diffDate4 >= 10) {
+                    range4 = 0;
+                  } else if (diffDate4 >= 0) {
+                    range4 = 10 - diffDate4;
+                  } else range4 = diffDate4;
+
+                }
+
+                if (item.type !== 'motorycle') {
+                  if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
+                  else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
+                  else status = 'danger';
+                }
+                else {
+                  if (status1 == 'good' && status2 == 'good' && status3 == 'good') status = 'good';
+                  else status = 'danger';
+                }
+
+
+                let temp = {
+                  id: index,
+                  title: {
+                    type: item.type,
+                    platenumber: item.plateNumber,
+                    city: item.city,
+                    distance: item.distance,
+                    status: status
+                  },
+                  content: {
+                    type: item.type,
+                    status: status,
+                    status1: status1,
+                    current: backformatDate(current_time),
+                    status2: status2,
+                    range2: range2,
+                    soat: backformatDate(item.soat.replaceAll('/', '-')),
+                    status3: status3,
+                    range3: range3,
+                    tecno: backformatDate(item.tecno.replaceAll('/', '-')),
+                    status4: status4,
+                    range4: range4,
+                    extintor: backformatDate(item.extintor.replaceAll('/', '-')),
+                  }
+                }
+                temp_arr = [temp, ...temp_arr];
+              });
+            }
+
+            if (rules['method'] === 3) {
+
+              info.forEach((item, index) => {
+
+                let status, status2, status3, status4;
+                let status1;
+                var range2 = 0, range3 = 0, range4 = 0;
+                let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
+                let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
+                let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
+
+
+                if (rules.type[item.type] === undefined) {
+                  status1 = 'good';
+                }
+                else {
+                  // if (current_day === 5 || current_day === 6) {
+                  //   status1 = 'good';
+                  // }
+                  // else {
+
+                  //   let last_number = parseInt(item.plateNumber.slice(-1));
+
+                  //   if (rules.type[item.type].rule[current_time].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour < rules.type[item.type].time.end) {
+                  //     status1 = 'danger';
+                  //   }
+                  //   else status1 = 'good';
+
+                  // }
+
+                  let last_number = parseInt(item.plateNumber.slice(-1));
+
+                  if (rules.type[item.type].rule[current_time].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour < rules.type[item.type].time.end) {
+                    status1 = 'danger';
+                  }
+                  else status1 = 'good';
+                }
 
                 diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
                 diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
@@ -435,21 +557,11 @@ const Home = ({ navigation }) => {
                   }
                 }
                 temp_arr = [temp, ...temp_arr];
-
-
-
-
-
               });
             }
+
             setCarData(temp_arr);
           })
-
-
-
-
-
-        // added = false;
       });
 
 

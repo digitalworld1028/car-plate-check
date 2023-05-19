@@ -31,6 +31,7 @@
     "react": "18.2.0",
     "react-native": "0.71.4",
     "react-native-accordion-list-view": "^2.0.1",
+    "react-native-actionsheet": "^2.4.2",
     "react-native-animated-accordion": "^0.1.1",
     "react-native-auto-carousel": "^1.0.8",
     "react-native-banner-carousel": "^1.0.3",
