@@ -43,31 +43,12 @@ const Login = ({ navigation }) => {
     }
 
     auth().onAuthStateChanged((user) => {
-        console.log('aaa');
         if (user) {
-            console.log('haha')
-            console.log(user.email)
-
-            // navigation.navigate('Home', {
-            //     uid: user.uid,
-            // });
-
-            // firestore()
-            //     .collection('users')
-            //     .doc(user.uid)
-            //     .set({
-            //         name: user.displayName,
-            //         email: user.email,
-            //         password: password,
-            //         info: [],
-            //     })
-            //     .then(() => {
-            //         console.log('User added!');
-            //     });
+            navigation.navigate('Home', {
+                uid: user.uid,
+            });
         }
     })
-
-
 
     return (
         <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[0, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
@@ -77,7 +58,6 @@ const Login = ({ navigation }) => {
                     height: verticalScale(750),
                 }}
             >
-
                 <SafeAreaView style={styles.container}>
 
                     <View style={{
@@ -211,38 +191,16 @@ const Login = ({ navigation }) => {
                                     .signInWithEmailAndPassword(email, password)
                                     .then((userCredential) => {
                                         // Signed in 
-                                        const user = userCredential.user;
                                         console.log('singed in!!!');
-                                        console.log(userCredential.user.uid);
 
-                                        navigation.navigate('Home', {
-                                            uid: userCredential.user.uid,
-                                        });
-
-                                        // firestore()
-                                        //     .collection('users')
-                                        //     .doc(userCredential.user.uid)
-                                        //     .get()
-                                        //     .then(documentSnapshot => {
-                                        //         console.log('User exists: ', documentSnapshot.exists);
-
-                                        //         if (documentSnapshot.exists) {
-                                        //             console.log('User data: ', documentSnapshot.data().name);
-                                        //             console.log('User uid: ', userCredential.user.uid);
-                                        //             navigation.navigate('Home', {
-                                        //                 username: documentSnapshot.data().name,
-                                        //                 uid: userCredential.user.uid,
-                                        //                 info: documentSnapshot.data().info,
-                                        //             });
-                                        //         }
-                                        //     });
-
-
-                                        // ...
+                                        // const user = userCredential.user;                                      
+                                        // console.log(userCredential.user.uid);
+                                        // navigation.navigate('Home', {
+                                        //     uid: userCredential.user.uid,
+                                        // });
                                     })
                                     .catch((error) => {
                                         if (error.code === 'auth/invalid-email') {
-                                            console.log('asdfasfd');
                                             setInfo('The email address is badly fromatted!')
                                         }
                                         if (error.code === 'auth/user-not-found') {

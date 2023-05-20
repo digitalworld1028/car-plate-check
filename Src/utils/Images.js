@@ -53,4 +53,5 @@ export default {
   ico_uncheck: require('./../assets/images/uncheck.png'),
 
   ico_marker:  require('./../assets/images/marker.png'),
+  ico_signout: require('./../assets/images/signout.png'),
 };

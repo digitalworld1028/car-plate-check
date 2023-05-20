@@ -365,63 +365,6 @@ const Addcar = ({ navigation }) => {
                                     extintor: extintor,
                                 });
 
-                                // if (type === 'motorycle') setExtintor('0000-00-00');
-
-                                // if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
-                                //     Toast.show({
-                                //         type: 'error',
-                                //         text1: 'warning',
-                                //         text2: 'Please input all!',
-                                //     });
-
-                                // }
-                                // else {
-                                //     navigation.navigate('Addother', {
-                                //         uid: uid,
-                                //         plateNumber: plateNumber,
-                                //         type: type,
-                                //         distance: distance,
-                                //         driverID: driverID,
-                                //         soat: soat,
-                                //         tecno: tecno,
-                                //         extintor: extintor,
-                                //     });
-                                // }
-
-
-
-                                // let data = [
-                                //     {
-                                //         type: 'car',
-                                //         plate: 'ABC123',
-                                //         city: 'Bogota',
-                                //         soat: '2022/05/22',
-                                //         tecno: '2023/06/15',
-                                //         extintor: '2023/09/16',
-                                //     },
-                                //     {
-                                //         type: 'car',
-                                //         plate: 'UIC823',
-                                //         city: 'Bogota',
-                                //         soat: '2022/05/22',
-                                //         tecno: '2023/06/15',
-                                //         extintor: '2023/09/16',
-                                //     },
-                                // ]
-
-                                // firestore()
-                                //     .collection('users')
-                                //     .doc('Siah9zR1N1aSzsFHlSh9UNoePNa2')
-                                //     // .select('info')
-                                //     .set({
-                                //         info: data
-                                //     }, {
-                                //         merge: true
-                                //     })
-                                //     .then(() => {
-                                //         console.log('User added!');
-                                //     });
-
                             }}
                             width={165}
                         />

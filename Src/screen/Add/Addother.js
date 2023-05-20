@@ -26,9 +26,7 @@ import { styles } from './styles';
 
 const Addother = ({ navigation }) => {
 
-    ///////////////////////////////////////////////
     const cityRef = useRef();
-
 
     const [city, setCity] = useState('');
     const [cityList, setCityList] = useState([]);
@@ -183,21 +181,15 @@ const Addother = ({ navigation }) => {
                                     tecno: tecno,
                                     extintor: extintor,
                                 };
-                                console.log(data)
                                 firestore()
                                     .collection('users')
                                     .doc(uid)
                                     .get()
                                     .then(documentSnapshot => {
-                                        console.log('User exists: ', documentSnapshot.exists);
 
                                         if (documentSnapshot.exists) {
-                                            console.log('User data: ', documentSnapshot.data());
                                             let olddata = documentSnapshot.data().info;
                                             olddata.push(data);
-                                            console.log(olddata);
-
-
                                             firestore()
                                                 .collection('users')
                                                 .doc(uid)
@@ -207,62 +199,13 @@ const Addother = ({ navigation }) => {
                                                     merge: true
                                                 })
                                                 .then(() => {
-                                                    console.log('User added!');
 
                                                     navigation.navigate('Home', {
                                                         uid: uid,
                                                     });
-
-                                                    // firestore()
-                                                    //     .collection('users')
-                                                    //     .doc(uid)
-                                                    //     .get()
-                                                    //     .then(documentSnapshot => {
-                                                    //         console.log('User exists: ', documentSnapshot.exists);
-
-                                                    //         if (documentSnapshot.exists) {
-                                                    //             console.log('User uid: ', uid);
-                                                    //             navigation.navigate('Home', {
-                                                    //                 uid: uid,
-                                                    //             });
-                                                    //         }
-                                                    //     });
                                                 });
-
-                                            // navigation.navigate('Home', {
-                                            //     username: username,
-                                            //     uid: uid,
-                                            //     info: olddata,
-                                            // });
-
-                                            // firestore()
-                                            //     .collection('users')
-                                            //     .doc(uid)
-                                            //     .get()
-                                            //     .then(documentSnapshot => {
-                                            //         console.log('User exists: ', documentSnapshot.exists.data().info);
-
-                                            //         if (documentSnapshot.exists) {
-                                            //             console.log('User data: ', username);
-                                            //             console.log('User uid: ', uid);
-                                            //             navigation.navigate('Home', {
-                                            //                 username: username,
-                                            //                 uid: uid,
-                                            //                 info: documentSnapshot.data().info,
-                                            //             });
-                                            //         }
-                                            //     });
                                         }
                                     });
-
-
-
-
-
-                                // navigation.navigate('Home', {
-                                //     uid: uid,
-                                //     username: username,
-                                // });
                             }} width={165} />
                         </View>
                     </SafeAreaView>

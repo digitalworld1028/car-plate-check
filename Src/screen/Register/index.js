@@ -260,7 +260,6 @@ const Register = ({ navigation }) => {
                     .createUserWithEmailAndPassword(email, password)
                     .then((data) => {
                       console.log('User account created & signed in!');
-                      console.log(data.user.uid);
 
 
                       firestore()

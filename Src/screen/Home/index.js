@@ -59,7 +59,6 @@ const diffDate = (date1, date2) => {
 
 const Home = ({ navigation }) => {
   const user = auth().currentUser;
-  console.log(user.uid)
 
   const [currentLongitude, setCurrentLongitude] = useState('...');
   const [currentLatitude, setCurrentLatitude] = useState('...');
@@ -152,11 +151,10 @@ const Home = ({ navigation }) => {
         setCurrentLatitude(currentLatitude);
         //Setting state Latitude to re re-render the Longitude Text
 
-        // console.log('api key = ', apikey);
+        console.log('api key = ', apikey);
         fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + currentLatitude + ',' + currentLongitude + '&key=AIzaSyAoGoRxR9Rn9VqvzdAnEHO0DScyv-YDqtY')
           .then(response => response.json())
           .then(data => {
-            console.log('haha')
             let formatted_address = data['results'][0]['formatted_address'];
             console.log('formated_address', formatted_address);
             cityList.map((item, index) => {
@@ -188,7 +186,6 @@ const Home = ({ navigation }) => {
 
   const route = useRoute();
   const uid = route.params?.uid;
-  // let added = route.params?.added;
   let info = [];
 
   const getCurrentInfo = () => {
@@ -198,361 +195,369 @@ const Home = ({ navigation }) => {
       .doc(uid)
       // .get()
       .onSnapshot(documentSnapshot => {
-        console.log(documentSnapshot.data())
+        if (documentSnapshot.exists) {
+          setUsername(documentSnapshot.data().name);
+          info = documentSnapshot.data().info;
+          let current_time = formatDate(new Date());
+          let day = new Date().toString().substring(0, 3);
+          let days = { 'Mon': 0, 'Tue': 1, 'Wed': 2, 'Thu': 3, 'Fri': 4, 'Sat': 5, 'Sun': 6 }
+          let current_day = days[day];
+          let date_day = new Date().getDate();
+          let current_hour = new Date().getHours();
 
-        setUsername(documentSnapshot.data().name);
+          let temp_arr = [];
 
-        info = documentSnapshot.data().info;
-        console.log('info', info)
-        let current_time = formatDate(new Date());
-        let day = new Date().toString().substring(0, 3);
-        let days = { 'Mon': 0, 'Tue': 1, 'Wed': 2, 'Thu': 3, 'Fri': 4, 'Sat': 5, 'Sun': 6 }
-        let current_day = days[day];
-        let date_day = new Date().getDate();
-        let current_hour = new Date().getHours();
-        console.log('current_hour', current_hour);
-        console.log('current_day', current_day);
-        console.log('current_time', current_time);
+          let location = 'Barranquilla';
+          let rules;
 
-        let temp_arr = [];
+          firestore().collection('rules').doc(location)
+            .get()
+            .then(documentSnapshot => {
+              rules = documentSnapshot.data();
+              if (rules['method'] === 1) {
+                info.forEach((item, index) => {
 
-        let location = 'Barranquilla';
-        let rules;
+                  let status, status2, status3, status4;
+                  let status1;
+                  var range2 = 0, range3 = 0, range4 = 0;
+                  let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
+                  let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
+                  let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
 
-        firestore().collection('rules').doc(location)
-          .get()
-          .then(documentSnapshot => {
-            rules = documentSnapshot.data();
-            if (rules['method'] === 1) {
-              info.forEach((item, index) => {
-
-                let status, status2, status3, status4;
-                let status1;
-                var range2 = 0, range3 = 0, range4 = 0;
-                let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
-                let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
-                let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
-
-                console.log(rules.type[item.type]);
-                if (rules.type[item.type] === undefined) {
-                  status1 = 'good';
-                }
-                else {
-                  let last_number = parseInt(item.plateNumber.slice(-1));
-                  if (current_day === 5 || current_day === 6) {
+                  if (rules.type[item.type] === undefined) {
                     status1 = 'good';
                   }
                   else {
-                    if (rules.type[item.type].rule.even === 'even') {
-                      if (date_day % 2 === last_number % 2 && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
+                    let last_number = parseInt(item.plateNumber.slice(-1));
+                    if (current_day === 5 || current_day === 6) {
+                      status1 = 'good';
+                    }
+                    else {
+                      if (rules.type[item.type].rule.even === 'even') {
+                        if (date_day % 2 === last_number % 2 && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
+                          status1 = 'danger';
+                        }
+                        else status1 = 'good';
+                      }
+                      if (rules.type[item.type].rule.even === 'odd') {
+                        if (date_day % 2 !== last_number % 2 && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
+                          status1 = 'danger';
+                        }
+                        else status1 = 'good';
+                      }
+
+                    }
+                    rules.type[item.type].other.map((other_item, i) => {
+                      if (other_item.date === current_time) {
+                        if (other_item.number.includes(last_number) && current_hour >= other_item.time.start && current_hour <= other_item.time.end) {
+                          status1 = 'danger';
+                        }
+                      }
+                    })
+                  }
+
+                  diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
+                  diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
+                  if (item.type !== 'motorycle') {
+                    diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
+                  }
+
+                  if (diffDate2 >= 10) {
+                    range2 = 0;
+                  } else if (diffDate2 >= 0) {
+                    range2 = 10 - diffDate2;
+                  } else range2 = diffDate2;
+
+                  if (diffDate3 >= 10) {
+                    range3 = 0;
+                  } else if (diffDate3 >= 0) {
+                    range3 = 10 - diffDate3;
+                  } else range3 = diffDate3;
+
+                  if (item.type !== 'motorycle') {
+                    if (diffDate4 >= 10) {
+                      range4 = 0;
+                    } else if (diffDate4 >= 0) {
+                      range4 = 10 - diffDate4;
+                    } else range4 = diffDate4;
+
+                  }
+
+                  if (item.type !== 'motorycle') {
+                    if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
+                    else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
+                    else status = 'danger';
+                  }
+                  else {
+                    if (status1 == 'good' && status2 == 'good' && status3 == 'good') status = 'good';
+                    else status = 'danger';
+                  }
+
+                  let temp = {
+                    id: index,
+                    title: {
+                      type: item.type,
+                      platenumber: item.plateNumber,
+                      city: item.city,
+                      distance: item.distance,
+                      status: status
+                    },
+                    content: {
+                      type: item.type,
+                      status: status,
+                      status1: status1,
+                      current: backformatDate(current_time),
+                      status2: status2,
+                      range2: range2,
+                      soat: backformatDate(item.soat.replaceAll('/', '-')),
+                      status3: status3,
+                      range3: range3,
+                      tecno: backformatDate(item.tecno.replaceAll('/', '-')),
+                      status4: status4,
+                      range4: range4,
+                      extintor: backformatDate(item.extintor.replaceAll('/', '-')),
+                    }
+                  }
+                  temp_arr = [temp, ...temp_arr];
+
+
+
+
+
+                });
+              }
+
+              if (rules['method'] === 2) {
+
+                info.forEach((item, index) => {
+
+                  let status, status2, status3, status4;
+                  let status1;
+                  var range2 = 0, range3 = 0, range4 = 0;
+                  let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
+                  let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
+                  let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
+
+
+                  if (rules.type[item.type] === undefined) {
+                    status1 = 'good';
+                  }
+                  else {
+                    let last_number = parseInt(item.plateNumber.slice(-1));
+                    if (current_day === 5 || current_day === 6) {
+                      status1 = 'good';
+                    }
+                    else {
+                      if (rules.type[item.type].rule[current_day].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
                         status1 = 'danger';
                       }
                       else status1 = 'good';
                     }
-                    if (rules.type[item.type].rule.even === 'odd') {
-                      if (date_day % 2 !== last_number % 2 && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
+
+                    rules.type[item.type].other.map((other_item, i) => {
+                      if (other_item.date === current_time) {
+                        if (other_item.number.includes(last_number) && current_hour >= other_item.time.start && current_hour <= other_item.time.end) {
+                          status1 = 'danger';
+                        }
+                      }
+                    })
+                  }
+
+
+                  diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
+                  diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
+                  if (item.type !== 'motorycle') {
+                    diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
+                  }
+
+                  if (diffDate2 >= 10) {
+                    range2 = 0;
+                  } else if (diffDate2 >= 0) {
+                    range2 = 10 - diffDate2;
+                  } else range2 = diffDate2;
+
+                  if (diffDate3 >= 10) {
+                    range3 = 0;
+                  } else if (diffDate3 >= 0) {
+                    range3 = 10 - diffDate3;
+                  } else range3 = diffDate3;
+
+                  if (item.type !== 'motorycle') {
+                    if (diffDate4 >= 10) {
+                      range4 = 0;
+                    } else if (diffDate4 >= 0) {
+                      range4 = 10 - diffDate4;
+                    } else range4 = diffDate4;
+
+                  }
+
+                  if (item.type !== 'motorycle') {
+                    if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
+                    else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
+                    else status = 'danger';
+                  }
+                  else {
+                    if (status1 == 'good' && status2 == 'good' && status3 == 'good') status = 'good';
+                    else status = 'danger';
+                  }
+
+
+                  let temp = {
+                    id: index,
+                    title: {
+                      type: item.type,
+                      platenumber: item.plateNumber,
+                      city: item.city,
+                      distance: item.distance,
+                      status: status
+                    },
+                    content: {
+                      type: item.type,
+                      status: status,
+                      status1: status1,
+                      current: backformatDate(current_time),
+                      status2: status2,
+                      range2: range2,
+                      soat: backformatDate(item.soat.replaceAll('/', '-')),
+                      status3: status3,
+                      range3: range3,
+                      tecno: backformatDate(item.tecno.replaceAll('/', '-')),
+                      status4: status4,
+                      range4: range4,
+                      extintor: backformatDate(item.extintor.replaceAll('/', '-')),
+                    }
+                  }
+                  temp_arr = [temp, ...temp_arr];
+                });
+              }
+
+              if (rules['method'] === 3) {
+
+                info.forEach((item, index) => {
+
+                  let status, status2, status3, status4;
+                  let status1;
+                  var range2 = 0, range3 = 0, range4 = 0;
+                  let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
+                  let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
+                  let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
+
+
+                  if (rules.type[item.type] === undefined) {
+                    status1 = 'good';
+                  }
+                  else {
+                    // if (current_day === 5 || current_day === 6) {
+                    //   status1 = 'good';
+                    // }
+                    // else {
+
+                    //   let last_number = parseInt(item.plateNumber.slice(-1));
+
+                    //   if (rules.type[item.type].rule[current_time].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour < rules.type[item.type].time.end) {
+                    //     status1 = 'danger';
+                    //   }
+                    //   else status1 = 'good';
+
+                    // }
+
+                    let last_number = parseInt(item.plateNumber.slice(-1));
+                    if (rules.type[item.type].rule[current_time] === undefined) {
+                      status1 = 'good';
+                    }
+                    else {
+                      if (rules.type[item.type].rule[current_time].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour < rules.type[item.type].time.end) {
                         status1 = 'danger';
                       }
                       else status1 = 'good';
                     }
 
+
                   }
-                  rules.type[item.type].other.map((other_item, i) => {
-                    if (other_item.date === current_time) {
-                      if (other_item.number.includes(last_number) && current_hour >= other_item.time.start && current_hour <= other_item.time.end) {
-                        status1 = 'danger';
-                      }
-                    }
-                  })
-                }
 
-                diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
-                diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
-                if (item.type !== 'motorycle') {
-                  diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
-                }
-
-                if (diffDate2 >= 10) {
-                  range2 = 0;
-                } else if (diffDate2 >= 0) {
-                  range2 = 10 - diffDate2;
-                } else range2 = diffDate2;
-
-                if (diffDate3 >= 10) {
-                  range3 = 0;
-                } else if (diffDate3 >= 0) {
-                  range3 = 10 - diffDate3;
-                } else range3 = diffDate3;
-
-                if (item.type !== 'motorycle') {
-                  if (diffDate4 >= 10) {
-                    range4 = 0;
-                  } else if (diffDate4 >= 0) {
-                    range4 = 10 - diffDate4;
-                  } else range4 = diffDate4;
-
-                }
-
-                if (item.type !== 'motorycle') {
-                  if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
-                  else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
-                  else status = 'danger';
-                }
-                else {
-                  if (status1 == 'good' && status2 == 'good' && status3 == 'good') status = 'good';
-                  else status = 'danger';
-                }
-
-                let temp = {
-                  id: index,
-                  title: {
-                    type: item.type,
-                    platenumber: item.plateNumber,
-                    city: item.city,
-                    distance: item.distance,
-                    status: status
-                  },
-                  content: {
-                    type: item.type,
-                    status: status,
-                    status1: status1,
-                    current: backformatDate(current_time),
-                    status2: status2,
-                    range2: range2,
-                    soat: backformatDate(item.soat.replaceAll('/', '-')),
-                    status3: status3,
-                    range3: range3,
-                    tecno: backformatDate(item.tecno.replaceAll('/', '-')),
-                    status4: status4,
-                    range4: range4,
-                    extintor: backformatDate(item.extintor.replaceAll('/', '-')),
+                  diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
+                  diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
+                  if (item.type !== 'motorycle') {
+                    diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
                   }
-                }
-                temp_arr = [temp, ...temp_arr];
 
+                  if (diffDate2 >= 10) {
+                    range2 = 0;
+                  } else if (diffDate2 >= 0) {
+                    range2 = 10 - diffDate2;
+                  } else range2 = diffDate2;
 
+                  if (diffDate3 >= 10) {
+                    range3 = 0;
+                  } else if (diffDate3 >= 0) {
+                    range3 = 10 - diffDate3;
+                  } else range3 = diffDate3;
 
+                  if (item.type !== 'motorycle') {
+                    if (diffDate4 >= 10) {
+                      range4 = 0;
+                    } else if (diffDate4 >= 0) {
+                      range4 = 10 - diffDate4;
+                    } else range4 = diffDate4;
 
+                  }
 
-              });
-            }
-
-            if (rules['method'] === 2) {
-
-              info.forEach((item, index) => {
-
-                let status, status2, status3, status4;
-                let status1;
-                var range2 = 0, range3 = 0, range4 = 0;
-                let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
-                let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
-                let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
-
-
-                if (rules.type[item.type] === undefined) {
-                  status1 = 'good';
-                }
-                else {
-                  let last_number = parseInt(item.plateNumber.slice(-1));
-                  if (current_day === 5 || current_day === 6) {
-                    status1 = 'good';
+                  if (item.type !== 'motorycle') {
+                    if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
+                    else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
+                    else status = 'danger';
                   }
                   else {
-                    if (rules.type[item.type].rule[current_day].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour <= rules.type[item.type].time.end) {
-                      status1 = 'danger';
+                    if (status1 == 'good' && status2 == 'good' && status3 == 'good') status = 'good';
+                    else status = 'danger';
+                  }
+
+                  let temp = {
+                    id: index,
+                    title: {
+                      type: item.type,
+                      platenumber: item.plateNumber,
+                      city: item.city,
+                      distance: item.distance,
+                      status: status
+                    },
+                    content: {
+                      type: item.type,
+                      status: status,
+                      status1: status1,
+                      current: backformatDate(current_time),
+                      status2: status2,
+                      range2: range2,
+                      soat: backformatDate(item.soat.replaceAll('/', '-')),
+                      status3: status3,
+                      range3: range3,
+                      tecno: backformatDate(item.tecno.replaceAll('/', '-')),
+                      status4: status4,
+                      range4: range4,
+                      extintor: backformatDate(item.extintor.replaceAll('/', '-')),
                     }
-                    else status1 = 'good';
                   }
+                  temp_arr = [temp, ...temp_arr];
+                });
+              }
 
-                  rules.type[item.type].other.map((other_item, i) => {
-                    if (other_item.date === current_time) {
-                      if (other_item.number.includes(last_number) && current_hour >= other_item.time.start && current_hour <= other_item.time.end) {
-                        status1 = 'danger';
-                      }
-                    }
-                  })
-                }
+              setCarData(temp_arr);
+            })
+        }
+        else {
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .set({
+              name: user.displayName,
+              email: user.email,
+              info: [],
+            })
+            .then(() => {
+              console.log('User initial Info added!');
+            });
+        }
 
-
-                diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
-                diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
-                if (item.type !== 'motorycle') {
-                  diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
-                }
-
-                if (diffDate2 >= 10) {
-                  range2 = 0;
-                } else if (diffDate2 >= 0) {
-                  range2 = 10 - diffDate2;
-                } else range2 = diffDate2;
-
-                if (diffDate3 >= 10) {
-                  range3 = 0;
-                } else if (diffDate3 >= 0) {
-                  range3 = 10 - diffDate3;
-                } else range3 = diffDate3;
-
-                if (item.type !== 'motorycle') {
-                  if (diffDate4 >= 10) {
-                    range4 = 0;
-                  } else if (diffDate4 >= 0) {
-                    range4 = 10 - diffDate4;
-                  } else range4 = diffDate4;
-
-                }
-
-                if (item.type !== 'motorycle') {
-                  if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
-                  else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
-                  else status = 'danger';
-                }
-                else {
-                  if (status1 == 'good' && status2 == 'good' && status3 == 'good') status = 'good';
-                  else status = 'danger';
-                }
-
-
-                let temp = {
-                  id: index,
-                  title: {
-                    type: item.type,
-                    platenumber: item.plateNumber,
-                    city: item.city,
-                    distance: item.distance,
-                    status: status
-                  },
-                  content: {
-                    type: item.type,
-                    status: status,
-                    status1: status1,
-                    current: backformatDate(current_time),
-                    status2: status2,
-                    range2: range2,
-                    soat: backformatDate(item.soat.replaceAll('/', '-')),
-                    status3: status3,
-                    range3: range3,
-                    tecno: backformatDate(item.tecno.replaceAll('/', '-')),
-                    status4: status4,
-                    range4: range4,
-                    extintor: backformatDate(item.extintor.replaceAll('/', '-')),
-                  }
-                }
-                temp_arr = [temp, ...temp_arr];
-              });
-            }
-
-            if (rules['method'] === 3) {
-
-              info.forEach((item, index) => {
-
-                let status, status2, status3, status4;
-                let status1;
-                var range2 = 0, range3 = 0, range4 = 0;
-                let diffDate2 = diffDate(item.soat.replaceAll('/', '-'), current_time);
-                let diffDate3 = diffDate(item.tecno.replaceAll('/', '-'), current_time);
-                let diffDate4 = diffDate(item.extintor.replaceAll('/', '-'), current_time);
-
-
-                if (rules.type[item.type] === undefined) {
-                  status1 = 'good';
-                }
-                else {
-                  // if (current_day === 5 || current_day === 6) {
-                  //   status1 = 'good';
-                  // }
-                  // else {
-
-                  //   let last_number = parseInt(item.plateNumber.slice(-1));
-
-                  //   if (rules.type[item.type].rule[current_time].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour < rules.type[item.type].time.end) {
-                  //     status1 = 'danger';
-                  //   }
-                  //   else status1 = 'good';
-
-                  // }
-
-                  let last_number = parseInt(item.plateNumber.slice(-1));
-                  if (rules.type[item.type].rule[current_time] === undefined) {
-                    status1 = 'good';
-                  }
-                  else {
-                    if (rules.type[item.type].rule[current_time].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour < rules.type[item.type].time.end) {
-                      status1 = 'danger';
-                    }
-                    else status1 = 'good';
-                  }
-
-
-                }
-
-                diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';
-                diffDate3 >= 0 ? status3 = 'good' : status3 = 'danger';
-                if (item.type !== 'motorycle') {
-                  diffDate4 >= 0 ? status4 = 'good' : status4 = 'warning';
-                }
-
-                if (diffDate2 >= 10) {
-                  range2 = 0;
-                } else if (diffDate2 >= 0) {
-                  range2 = 10 - diffDate2;
-                } else range2 = diffDate2;
-
-                if (diffDate3 >= 10) {
-                  range3 = 0;
-                } else if (diffDate3 >= 0) {
-                  range3 = 10 - diffDate3;
-                } else range3 = diffDate3;
-
-                if (item.type !== 'motorycle') {
-                  if (diffDate4 >= 10) {
-                    range4 = 0;
-                  } else if (diffDate4 >= 0) {
-                    range4 = 10 - diffDate4;
-                  } else range4 = diffDate4;
-
-                }
-
-                if (item.type !== 'motorycle') {
-                  if (status1 == 'good' && status2 == 'good' && status3 == 'good' && status4 == 'good') status = 'good';
-                  else if (status1 === 'good' && status2 === 'good' && status3 === 'good' && status4 === 'warning') status = 'warning';
-                  else status = 'danger';
-                }
-                else {
-                  if (status1 == 'good' && status2 == 'good' && status3 == 'good') status = 'good';
-                  else status = 'danger';
-                }
-
-                let temp = {
-                  id: index,
-                  title: {
-                    type: item.type,
-                    platenumber: item.plateNumber,
-                    city: item.city,
-                    distance: item.distance,
-                    status: status
-                  },
-                  content: {
-                    type: item.type,
-                    status: status,
-                    status1: status1,
-                    current: backformatDate(current_time),
-                    status2: status2,
-                    range2: range2,
-                    soat: backformatDate(item.soat.replaceAll('/', '-')),
-                    status3: status3,
-                    range3: range3,
-                    tecno: backformatDate(item.tecno.replaceAll('/', '-')),
-                    status4: status4,
-                    range4: range4,
-                    extintor: backformatDate(item.extintor.replaceAll('/', '-')),
-                  }
-                }
-                temp_arr = [temp, ...temp_arr];
-              });
-            }
-
-            setCarData(temp_arr);
-          })
       });
 
 
@@ -572,13 +577,8 @@ const Home = ({ navigation }) => {
 
   return (
     <LinearGradient colors={['rgb(170,170,170)', '#FFFFFF']} locations={[0, 0.3526]} useAngle={true} angle={191.84} style={styles.gradient}>
-      {/* <SafeAreaView style={{
-        height: '100%',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}> */}
       {Platform.OS == 'ios' && <View style={{ height: 35, }}></View>}
-      <Header username={username} />
+      <Header username={username} navigation={navigation} />
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -645,7 +645,6 @@ const Home = ({ navigation }) => {
         ))}
       </ScrollView>
       <Footer navigation={navigation} uid={uid} />
-      {/* </SafeAreaView> */}
     </LinearGradient>
   );
 };
