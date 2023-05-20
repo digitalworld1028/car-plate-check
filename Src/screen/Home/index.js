@@ -58,30 +58,14 @@ const diffDate = (date1, date2) => {
 
 
 const Home = ({ navigation }) => {
+  const user = auth().currentUser;
+  console.log(user.uid)
 
   const [currentLongitude, setCurrentLongitude] = useState('...');
   const [currentLatitude, setCurrentLatitude] = useState('...');
   const [locationStatus, setLocationStatus] = useState('');
   const [currentCity, setCurrentCity] = useState('');
   const [apikey, setApiKey] = useState('');
-  // const [cityList, setCityList] = useState([]);
-
-  // firestore()
-  //   .collection('rules')
-  //   .get()
-  //   .then(querySnapshot => {
-
-  //     let temp = [];
-
-  //     querySnapshot.forEach(documentSnapshot => {
-  //       temp.push(documentSnapshot.id);
-  //     });
-
-  //     console.log(temp);
-
-  //     setCityList(temp);
-
-  //   });
 
   const cityList = ['Leticia', 'Medellín', 'Arauca', 'Barranquilla', 'Bogotá', 'Cartagena de Indias', 'Tunja',
     'Manizales', 'Florencia', 'Yopal', 'Popayán', 'Valledupar', 'Quibdó', 'Montería', 'Inírida', 'San José del Guaviare',
@@ -214,6 +198,7 @@ const Home = ({ navigation }) => {
       .doc(uid)
       // .get()
       .onSnapshot(documentSnapshot => {
+        console.log(documentSnapshot.data())
 
         setUsername(documentSnapshot.data().name);
 
@@ -487,11 +472,17 @@ const Home = ({ navigation }) => {
                   // }
 
                   let last_number = parseInt(item.plateNumber.slice(-1));
-
-                  if (rules.type[item.type].rule[current_time].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour < rules.type[item.type].time.end) {
-                    status1 = 'danger';
+                  if (rules.type[item.type].rule[current_time] === undefined) {
+                    status1 = 'good';
                   }
-                  else status1 = 'good';
+                  else {
+                    if (rules.type[item.type].rule[current_time].includes(last_number) && current_hour >= rules.type[item.type].time.start && current_hour < rules.type[item.type].time.end) {
+                      status1 = 'danger';
+                    }
+                    else status1 = 'good';
+                  }
+
+
                 }
 
                 diffDate2 >= 0 ? status2 = 'good' : status2 = 'danger';

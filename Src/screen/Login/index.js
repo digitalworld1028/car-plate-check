@@ -42,6 +42,31 @@ const Login = ({ navigation }) => {
         return auth().signInWithCredential(googleCredential);
     }
 
+    auth().onAuthStateChanged((user) => {
+        console.log('aaa');
+        if (user) {
+            console.log('haha')
+            console.log(user.email)
+
+            // navigation.navigate('Home', {
+            //     uid: user.uid,
+            // });
+
+            // firestore()
+            //     .collection('users')
+            //     .doc(user.uid)
+            //     .set({
+            //         name: user.displayName,
+            //         email: user.email,
+            //         password: password,
+            //         info: [],
+            //     })
+            //     .then(() => {
+            //         console.log('User added!');
+            //     });
+        }
+    })
+
 
 
     return (
