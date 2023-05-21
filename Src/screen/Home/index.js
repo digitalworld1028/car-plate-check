@@ -165,7 +165,6 @@ const Home = ({ navigation }) => {
                 // console.log(item);
                 setCurrentCity(item);
               }
-              else setCurrentCity('unknown')
             });
             // data['results'][0]['address_components'].map((item, index) => {
             //   if (item['types'].includes('locality')) {
@@ -200,7 +199,7 @@ const Home = ({ navigation }) => {
       // .get()
       .onSnapshot(documentSnapshot => {
         console.log(currentCity)
-        if (currentCity !== 'unknown') {
+        if (currentCity !== '') {
           if (documentSnapshot.exists) {
             setUsername(documentSnapshot.data().name);
             info = documentSnapshot.data().info;
@@ -613,7 +612,7 @@ const Home = ({ navigation }) => {
           <Text style={{
             marginLeft: horizontalScale(10),
             fontSize: verticalScale(13),
-          }}>ESTÁS EN {currentCity}</Text>
+          }}>ESTÁS EN {currentCity === '' && 'unknown'}</Text>
         </View>
 
 
