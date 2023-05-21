@@ -48,12 +48,12 @@ const Addcar = ({ navigation }) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedSoatDate, setSelectedSoatDate] = useState('');
     const [selectedTecnoDate, setSelectedTecnoDate] = useState('');
-    const [selectedmotorcycleDate, setSelectedmotorcycleDate] = useState('');
+    const [selectedExtintorDate, setSelectedExtintorDate] = useState('');
 
     const [isModalVisible, setModalVisible] = useState(false);
     const [isSoatModalVisible, setSoatModalVisible] = useState(false);
     const [isTecnoModalVisible, setTecnoModalVisible] = useState(false);
-    const [ismotorcycleModalVisible, setmotorcycleModalVisible] = useState(false);
+    const [isExtintorModalVisible, setExtintorModalVisible] = useState(false);
 
 
     const toggleSoatModal = () => {
@@ -62,8 +62,8 @@ const Addcar = ({ navigation }) => {
     const toggleTecnoModal = () => {
         setTecnoModalVisible(!isTecnoModalVisible);
     };
-    const togglemotorcycleModal = () => {
-        setmotorcycleModalVisible(!ismotorcycleModalVisible);
+    const toggleExtintorModal = () => {
+        setExtintorModalVisible(!isExtintorModalVisible);
     };
 
 
@@ -73,7 +73,7 @@ const Addcar = ({ navigation }) => {
     const driverIDRef = useRef();
     const soatRef = useRef();
     const tecnoRef = useRef();
-    const motorcycleRef = useRef();
+    const extintorRef = useRef();
 
 
     const [plateNumber, setPlateNumber] = useState('');
@@ -82,7 +82,7 @@ const Addcar = ({ navigation }) => {
     const [driverID, setDriverID] = useState('');
     const [soat, setSoat] = useState('');
     const [tecno, setTecno] = useState('');
-    const [motorcycle, setmotorcycle] = useState('');
+    const [extintor, setExtintor] = useState('');
 
 
 
@@ -133,16 +133,16 @@ const Addcar = ({ navigation }) => {
                         </View>
                     </Modal>
                     <Modal
-                        isVisible={ismotorcycleModalVisible}
+                        isVisible={isExtintorModalVisible}
                         onBackdropPress={() => {
-                            setmotorcycleModalVisible(false);
-                            setmotorcycle(selectedmotorcycleDate);
+                            setExtintorModalVisible(false);
+                            setExtintor(selectedExtintorDate);
                         }}
                     >
                         <View style={{}}>
                             <DatePicker
                                 onSelectedChange={date => {
-                                    setSelectedmotorcycleDate(date);
+                                    setSelectedExtintorDate(date);
                                 }}
                                 mode="calendar"
                             />
@@ -320,18 +320,18 @@ const Addcar = ({ navigation }) => {
 
                         <TouchableOpacity
                             onPress={() => {
-                                togglemotorcycleModal();
+                                toggleExtintorModal();
                             }}
                             disabled={type === 'motorcycle' ? true : false}
                             style={type === 'motorcycle' ? { opacity: 0.3 } : { opacity: 1 }}
                         >
                             <InputField
-                                ref={motorcycleRef}
-                                value={motorcycle}
+                                ref={extintorRef}
+                                value={extintor}
                                 marginVertical={6}
-                                onChangeText={v => setmotorcycle(v)}
+                                onChangeText={v => setExtintor(v)}
                                 onSubmitEditing={() => { }}
-                                placeholder={'Fecha del motorcycle'}
+                                placeholder={'Fecha del Extintor'}
                                 isLeft={true}
                                 isRight={true}
                                 leftIcon={Images.ico_cal}
@@ -358,9 +358,9 @@ const Addcar = ({ navigation }) => {
                             label={'SIGUIENTE'}
                             onPress={() => {
 
-                                if (type === 'motorycle') setmotorcycle('0000-00-00');
+                                if (type === 'motorcycle') setExtintor('0000-00-00');
 
-                                if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || motorcycle == '') {
+                                if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
                                     Toast.show({
                                         type: 'error',
                                         text1: 'warning',
@@ -376,7 +376,7 @@ const Addcar = ({ navigation }) => {
                                         driverID: driverID,
                                         soat: soat,
                                         tecno: tecno,
-                                        motorcycle: motorcycle,
+                                        extintor: extintor,
                                     });
                                 }
 
