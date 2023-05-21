@@ -151,6 +151,8 @@ const Addother = ({ navigation }) => {
                                         placeholder={'Ciudad'}
                                         isLeft={true}
                                         leftIcon={Images.ico_location}
+                                        rightIcon={Images.ico_bottom}
+                                        rightType={'normal'}
                                         editable={false}
                                     />
                                 </TouchableOpacity>

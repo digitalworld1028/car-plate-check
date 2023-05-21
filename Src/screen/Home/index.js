@@ -612,7 +612,7 @@ const Home = ({ navigation }) => {
           <Text style={{
             marginLeft: horizontalScale(10),
             fontSize: verticalScale(13),
-          }}>ESTÁS EN {currentCity === '' && 'unknown'}</Text>
+          }}>ESTÁS EN {currentCity === '' ? 'unknown' : currentCity}</Text>
         </View>
 
 

@@ -360,7 +360,7 @@ const Addcar = ({ navigation }) => {
 
                                 if (type === 'motorcycle') setExtintor('0000-00-00');
 
-                                if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
+                                if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '') {
                                     Toast.show({
                                         type: 'error',
                                         text1: 'warning',

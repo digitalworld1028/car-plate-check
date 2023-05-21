@@ -143,39 +143,43 @@ const Login = ({ navigation }) => {
 
                         <View style={{
                         }}>
-                            <View style={{
-                                width: '100%',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                marginBottom: horizontalScale(10),
-                            }}>
+                            {Platform.OS === 'android' &&
                                 <View style={{
-                                    height: horizontalScale(1),
-                                    backgroundColor: '#BFBFBF',
-                                    width: horizontalScale(70),
-                                }}></View>
+                                    width: '100%',
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    marginBottom: horizontalScale(10),
+                                }}>
+                                    <View style={{
+                                        height: horizontalScale(1),
+                                        backgroundColor: '#BFBFBF',
+                                        width: horizontalScale(70),
+                                    }}></View>
 
-                                <View>
-                                    <Text style={{
-                                        fontFamily: 'RobotoCondensed-Regular',
-                                    }}>Ó, INICIE SESIÓN CON:</Text>
+                                    <View>
+                                        <Text style={{
+                                            fontFamily: 'RobotoCondensed-Regular',
+                                        }}>Ó, INICIE SESIÓN CON:</Text>
+                                    </View>
+
+                                    <View style={{
+                                        height: horizontalScale(1),
+                                        backgroundColor: '#BFBFBF',
+                                        width: horizontalScale(70),
+                                    }}></View>
                                 </View>
+                            }
 
-                                <View style={{
-                                    height: horizontalScale(1),
-                                    backgroundColor: '#BFBFBF',
-                                    width: horizontalScale(70),
-                                }}></View>
-                            </View>
-                            <Loginwith icon={Images.ico_google} text={'INICIAR SESIÓN CON GOOGLE'} onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))} bgcolor={'rgba(0, 199, 229, 0.1)'} borderColor={'#00C7E5'} />
-                            <Loginwith icon={Images.ico_facebook} text={'INICIAR SESIÓN CON FACEBOOK'} bgcolor={'rgba(18, 120, 243, 0.1)'} borderColor={'#1278F3'} />
+                            {Platform.OS === 'android' && <Loginwith icon={Images.ico_google} text={'INICIAR SESIÓN CON GOOGLE'} onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))} bgcolor={'rgba(0, 199, 229, 0.1)'} borderColor={'#00C7E5'} />}
+
+                            {/* <Loginwith icon={Images.ico_facebook} text={'INICIAR SESIÓN CON FACEBOOK'} bgcolor={'rgba(18, 120, 243, 0.1)'} borderColor={'#1278F3'} /> */}
                         </View>
                     </View>
 
                     <View style={{
                         width: '80%',
-                        marginTop: verticalScale(55),
+                        marginTop: Platform.OS == 'ios' ? verticalScale(150) : verticalScale(120),
                         alignItems: 'center',
                     }}>
                         <Button label={'CONTINUAR'} onPress={() => {
