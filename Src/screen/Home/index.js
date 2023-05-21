@@ -199,6 +199,7 @@ const Home = ({ navigation }) => {
       .doc(uid)
       // .get()
       .onSnapshot(documentSnapshot => {
+        console.log(currentCity)
         if (currentCity !== 'unknown') {
           if (documentSnapshot.exists) {
             setUsername(documentSnapshot.data().name);
