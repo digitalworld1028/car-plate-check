@@ -85,6 +85,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     const requestLocationPermission = async () => {
       if (Platform.OS === 'ios') {
+        console.log('ios_part')
         getOneTimeLocation();
         subscribeLocationLocation();
       } else {
@@ -115,10 +116,12 @@ const Home = ({ navigation }) => {
   }, []);
 
   const getOneTimeLocation = () => {
+    console.log('getOneTimeLocation function...')
     setLocationStatus('Getting Location ...');
     Geolocation.getCurrentPosition(
       //Will give you the current location
       (position) => {
+        console.log('position ', position)
         setLocationStatus('You are Here');
         const currentLongitude = JSON.stringify(position.coords.longitude);
         //getting the Longitude from the location json

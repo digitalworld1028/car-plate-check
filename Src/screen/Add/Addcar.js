@@ -31,7 +31,11 @@ function notifyMessage(msg) {
     if (Platform.OS === 'android') {
         ToastAndroid.show(msg, ToastAndroid.SHORT)
     } else {
-        AlertIOS.alert(msg);
+        Toast.show({
+            type: 'error',
+            text1: 'warning',
+            text2: msg,
+        });
     }
 }
 
@@ -258,7 +262,7 @@ const Addcar = ({ navigation }) => {
                             onChangeText={v => {
                                 setDriverID(v);
                                 let isNum = /^\d+$/.test(v);
-                                if(!isNum) {
+                                if (!isNum) {
                                     notifyMessage('It must be number!');
                                     setDriverID('');
                                 }
@@ -354,16 +358,27 @@ const Addcar = ({ navigation }) => {
                             label={'SIGUIENTE'}
                             onPress={() => {
 
-                                navigation.navigate('Addother', {
-                                    uid: uid,
-                                    plateNumber: plateNumber,
-                                    type: type,
-                                    distance: distance,
-                                    driverID: driverID,
-                                    soat: soat,
-                                    tecno: tecno,
-                                    extintor: extintor,
-                                });
+                                if (type === 'motorycle') setExtintor('0000-00-00');
+
+                                if (plateNumber == '' || type == '' || distance == '' || driverID == '' || soat == '' || tecno == '' || extintor == '') {
+                                    Toast.show({
+                                        type: 'error',
+                                        text1: 'warning',
+                                        text2: 'Please input all!',
+                                    });
+                                }
+                                else {
+                                    navigation.navigate('Addother', {
+                                        uid: uid,
+                                        plateNumber: plateNumber,
+                                        type: type,
+                                        distance: distance,
+                                        driverID: driverID,
+                                        soat: soat,
+                                        tecno: tecno,
+                                        extintor: extintor,
+                                    });
+                                }
 
                             }}
                             width={165}
