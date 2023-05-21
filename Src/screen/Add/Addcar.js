@@ -318,8 +318,8 @@ const Addcar = ({ navigation }) => {
                             onPress={() => {
                                 toggleExtintorModal();
                             }}
-                            disabled={type === 'motorycle' ? true : false}
-                            style={type === 'motorycle' ? { opacity: 0.3 } : { opacity: 1 }}
+                            disabled={type === 'motorcycle' ? true : false}
+                            style={type === 'motorcycle' ? { opacity: 0.3 } : { opacity: 1 }}
                         >
                             <InputField
                                 ref={extintorRef}

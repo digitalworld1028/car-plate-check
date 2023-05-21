@@ -62,7 +62,7 @@ const Plate = props => {
                         <Text style={{
                             color: 'black',
                             fontSize: verticalScale(12),
-                        }}>{type === 'particular' && '+ TU AUTO'}{type === 'motorycle' && '+ TU MOTO'}</Text>
+                        }}>{type === 'particular' && '+ TU AUTO'}{type === 'motorcycle' && '+ TU MOTO'}</Text>
                     </View>
                 </View>
                 <View style={{
